@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_marginEnd="8dp"
+        android:layout_width="180dp"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        app:cardCornerRadius="12dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/single_image"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_overlay"
+            android:layout_gravity="bottom">
+            <TextView
+                android:id="@+id/single_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem Ipsum"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="16dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                style="@style/TextAppearance.MdcTypographyStyles.Body1"
+                />
+        </FrameLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+    e
+</RelativeLayout>

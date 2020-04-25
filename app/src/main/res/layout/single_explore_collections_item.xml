@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="276dp"
+        android:layout_height="171dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="5dp"
+        app:cardCornerRadius="12dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/single_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_overlay" />
+
+
+
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:layout_width="172.5dp"
+            android:minHeight="108dp"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_gravity="bottom|start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/total_photos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="44 photos"
+                android:textColor="@color/textLowContrast"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/single_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/playfair_bold"
+                android:text="Lorem Ipsum Lorem Ipsum"
+                android:lineHeight="25dp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/photo_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textColor="@color/textLowContrast"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

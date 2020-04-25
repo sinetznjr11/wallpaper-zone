@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+
+
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:id="@+id/observable_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderAutoCycleEnabled="true"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorGravity="bottom|start"
+                app:sliderIndicatorMarginBottom="70dp"
+                app:sliderIndicatorMarginLeft="16dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="2dp"
+                app:sliderIndicatorRadius="1.6dp"
+                app:sliderIndicatorSelectedColor="@color/colorAccent"
+                app:sliderIndicatorUnselectedColor="@color/iconLowColor"
+                app:sliderScrollTimeInSec="4"
+                app:sliderStartAutoCycle="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="80dp"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/featured_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/featured_image"
+                        android:fontFamily="@font/playfair_bold"
+                        android:text="Lorem Ipsum dolor sit amet"
+                        android:textColor="@android:color/white"
+                        android:textSize="26sp"
+                        android:ellipsize="end"
+                        android:maxLines="3"/>
+
+                    <TextView
+                        android:id="@+id/featured_user"
+                        style="@style/TextAppearance.MdcTypographyStyles.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/featured_text"
+                        android:text="John Doe"
+                        android:textColor="@color/textLowContrast" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/featured_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/user_placeholder"
+                        app:riv_corner_radius="20dp" />
+                </RelativeLayout>
+
+            </com.smarteist.autoimageslider.SliderView>
+
+            <View
+                android:id="@+id/slider_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                 />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="-64dp"
+               android:layout_below="@id/slider_overlay"
+                android:id="@+id/explore_vertical_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="16dp" />
+        </RelativeLayout>
+
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#50000000"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_wallpaperzone"
+            android:tint="@color/colorPrimary"
+            android:scaleType="center"
+            android:layout_gravity="center"
+            />
+    </androidx.appcompat.widget.Toolbar>
+    <include
+        android:id="@+id/loader_layout"
+        layout="@layout/loader_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
