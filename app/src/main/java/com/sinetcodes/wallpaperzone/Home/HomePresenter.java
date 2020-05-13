@@ -6,15 +6,15 @@ import com.sinetcodes.wallpaperzone.Common.ContentType;
 
 import java.util.List;
 
-public class ExplorePresenter implements ExploreMVPInterface.presenter {
+public class HomePresenter implements HomeMVPInterface.presenter {
     Context context;
-    ExploreMVPInterface.view view;
-    ExploreMVPInterface.model model;
+    HomeMVPInterface.view view;
+    HomeMVPInterface.model model;
 
-    public ExplorePresenter(Context context, ExploreMVPInterface.view view) {
+    public HomePresenter(Context context, HomeMVPInterface.view view) {
         this.context = context;
         this.view = view;
-        this.model = new ExploreModel(context, this);
+        this.model = new HomeModel(context, this);
     }
 
     @Override

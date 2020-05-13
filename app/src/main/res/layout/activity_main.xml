@@ -6,12 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/main_frame"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_below="@id/app_bar" />
+        android:layout_marginBottom="56dp">
+
+        <FrameLayout
+            android:id="@+id/main_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bannerAdView">
+        </FrameLayout>
+<!--
+            <fragment
+
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+
+                app:navGraph="@navigation/bottom_navigation_graph" />
+-->
+
+
+
+        <RelativeLayout
+            android:id="@+id/bannerAdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center" />
+    </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -22,7 +49,6 @@
         app:itemIconTint="@drawable/bottom_nav_selector"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

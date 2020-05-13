@@ -22,20 +22,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ExploreVH> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ExploreVH> {
     Context context;
     List<ExploreItem> exploreItems = new ArrayList<>();
     private static final String TAG = "ExploreAdapter";
     OnParentItemClickListener mListener;
-    ExploreHorizontalAdapter.OnChildItemClickedListener mChildItemClickedListener;
+    HomeHorizontalAdapter.OnChildItemClickedListener mChildItemClickedListener;
 
-    ExploreMVPInterface.view mView;
+    HomeMVPInterface.view mView;
 
     boolean isScrolling=false;
-    ExploreHorizontalAdapter popularAdapter;
+    HomeHorizontalAdapter popularAdapter;
 
 
-    public ExploreAdapter(Context context, ExploreMVPInterface.view view, List<ExploreItem> exploreItems, OnParentItemClickListener onParentItemClickListener, ExploreHorizontalAdapter.OnChildItemClickedListener onChildItemClickedListener) {
+    public HomeAdapter(Context context, HomeMVPInterface.view view, List<ExploreItem> exploreItems, OnParentItemClickListener onParentItemClickListener, HomeHorizontalAdapter.OnChildItemClickedListener onChildItemClickedListener) {
         this.context = context;
         this.exploreItems = exploreItems;
         this.mListener = onParentItemClickListener;
@@ -53,20 +53,22 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ExploreV
     public void onBindViewHolder(ExploreVH holder, int position) {
 
         String title = exploreItems.get(position).getTitle();
+
         holder.headerText.setText(title);
 
         holder.horizontalRV.setNestedScrollingEnabled(false);
 
         if (title.equalsIgnoreCase(ContentType.POPULAR)) {
+            holder.btnShowAll.setVisibility(View.INVISIBLE);
             StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             holder.horizontalRV.setLayoutManager(layoutManager);
-            popularAdapter = new ExploreHorizontalAdapter(context, mChildItemClickedListener, position, exploreItems.get(position).getItems(), title);
+            popularAdapter = new HomeHorizontalAdapter(context, mChildItemClickedListener, position, exploreItems.get(position).getItems(), title);
             holder.horizontalRV.setAdapter(popularAdapter);
 
         } else {
 
             holder.horizontalRV.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-            ExploreHorizontalAdapter adapter = new ExploreHorizontalAdapter(context, mChildItemClickedListener, position, exploreItems.get(position).getItems(), title);
+            HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(context, mChildItemClickedListener, position, exploreItems.get(position).getItems(), title);
             holder.horizontalRV.setAdapter(adapter);
         }
 
@@ -80,6 +82,11 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ExploreV
 
     public void addPopularContent(List<Object> photosList){
         popularAdapter.addPopularContent(photosList);
+    }
+
+    public void removeItems(){
+        exploreItems.removeAll(exploreItems);
+        notifyDataSetChanged();
     }
 
 

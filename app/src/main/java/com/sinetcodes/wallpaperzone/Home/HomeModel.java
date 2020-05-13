@@ -20,23 +20,24 @@ import com.sinetcodes.wallpaperzone.POJO.Photos;
 import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ExploreModel implements ExploreMVPInterface.model {
+public class HomeModel implements HomeMVPInterface.model {
     private static final String TAG = "ExploreModel";
     Context context;
-    ExploreMVPInterface.presenter presenter;
+    HomeMVPInterface.presenter presenter;
 
     List<ExploreItem> exploreItems = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
 
-    public ExploreModel(Context context, ExplorePresenter explorePresenter) {
+    public HomeModel(Context context, HomePresenter homePresenter) {
         this.context = context;
-        this.presenter = explorePresenter;
+        this.presenter = homePresenter;
         this.firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
@@ -77,6 +78,8 @@ public class ExploreModel implements ExploreMVPInterface.model {
                         for (int i = 0; i < response.body().size(); i++) {
                             collectionItems.add(response.body().get(i));
                         }
+
+                        Collections.shuffle(collectionItems);
                         presenter.takeContent(collectionItems, ContentType.COLLECTIONS);
                     } else {
                         presenter.onError(response.code() + ": " + response.message());

@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizontalAdapter.ExploreHorizontalVH> {
+public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAdapter.ExploreHorizontalVH> {
     Context context;
     List<Object> list = new ArrayList<>();
     String type;
@@ -38,7 +38,7 @@ public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizo
     private OnChildItemClickedListener mListener;
     private static final String TAG = "HorizontalAdapter";
 
-    public ExploreHorizontalAdapter(Context context, OnChildItemClickedListener onChildItemClickedListener, int parentPosition, List<Object> list, String type) {
+    public HomeHorizontalAdapter(Context context, OnChildItemClickedListener onChildItemClickedListener, int parentPosition, List<Object> list, String type) {
         this.context = context;
         this.list = list;
         this.type = type;
@@ -50,7 +50,7 @@ public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizo
     @Override
     public ExploreHorizontalVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = chooseDynamicLayout(parent);
-        final ExploreHorizontalAdapter.ExploreHorizontalVH viewHolder = new ExploreHorizontalAdapter.ExploreHorizontalVH(v, mListener);
+        final HomeHorizontalAdapter.ExploreHorizontalVH viewHolder = new HomeHorizontalAdapter.ExploreHorizontalVH(v, mListener);
         return viewHolder;
     }
 
@@ -65,6 +65,7 @@ public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizo
 
             case ContentType.COLLECTIONS:
                 List<Collection> collectionList = (List<Collection>) (List<?>) list;
+                holder.itemImage.setBackgroundColor(Color.parseColor(collectionList.get(position).getCoverPhoto().getColor()));
 
                 holder.itemName.setText(collectionList.get(position).getTitle());
                 Picasso.get()
@@ -88,7 +89,7 @@ public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizo
 
             case ContentType.POPULAR:
                 List<Photos> photosList = (List<Photos>) (List<?>) list;
-                //holder.itemImage.setBackgroundColor(Color.parseColor(photosList.get(position).getColor()));
+                holder.itemImage.setBackgroundColor(Color.parseColor(photosList.get(position).getColor()));
                 Picasso.get().load(photosList.get(position).getUrls().getThumb()).into(holder.itemImage);
 
                 String ratio = photosList.get(position).getWidth() + ":" + photosList.get(position).getHeight();
@@ -140,6 +141,11 @@ public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizo
         @BindView(R.id.photo_user)
         TextView photoUserTV;
 
+        @Nullable
+        @BindView(R.id.item_view)
+        FrameLayout item_view;
+
+
         //public View container;
         OnChildItemClickedListener mOnChildItemClickedListener;
 
@@ -147,9 +153,8 @@ public class ExploreHorizontalAdapter extends RecyclerView.Adapter<ExploreHorizo
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.mOnChildItemClickedListener = onChildItemClickedListener;
-            itemView.setOnClickListener(this);
             itemImage.setOnClickListener(this);
-
+            item_view.setOnClickListener(this);
 
         }
 

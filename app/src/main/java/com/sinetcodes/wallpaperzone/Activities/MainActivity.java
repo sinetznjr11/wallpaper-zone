@@ -1,68 +1,73 @@
 package com.sinetcodes.wallpaperzone.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sinetcodes.wallpaperzone.Ads.AdsUtil;
 import com.sinetcodes.wallpaperzone.Ads.MyInterstitialAd;
-import com.sinetcodes.wallpaperzone.Common.OnBackPressedFragment;
 import com.sinetcodes.wallpaperzone.Home.HomeFragment;
 import com.sinetcodes.wallpaperzone.Favourites.FavouritesFragment;
+import com.sinetcodes.wallpaperzone.Profile.ProfileFragment;
 import com.sinetcodes.wallpaperzone.Search.SearchFragment;
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.UserUtil;
+import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
+import com.sinetcodes.wallpaperzone.Utilities.MyUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    private FirebaseAnalytics mFirebaseAnalytics;
+public class MainActivity extends AppCompatActivity
+        implements
+        BottomNavigationView.OnNavigationItemSelectedListener {
+
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
+    private static final String TAG = "MainActivity";
+
+    final Fragment mHomeFragment=new HomeFragment();
+    final Fragment mSearchFragment=new SearchFragment();
+    final Fragment mFavouritesFragment=new FavouritesFragment();
+    final Fragment mProfileFragment=new ProfileFragment();
+
+    final FragmentManager mFragmentManager=getSupportFragmentManager();
+
+    Fragment active= mHomeFragment;
+
 
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
+    @BindView(R.id.bannerAdView)
+    View bannerAdView;
 
-   MyInterstitialAd mInterstitialAd;
+    MyInterstitialAd mInterstitialAd;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-    private static final String TAG = "MainActivity";
+    AdsUtil adsUtil = new AdsUtil();
+    public static int photosInterstitialAdCounter = 0;
 
-    public static int photosInterstitialAdCounter=0;
+    boolean doubleBackToExitPressedOnce;
 
-
-   /* @OnClick(R.id.btn_one)
-    void onOneClicked(){
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "1");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button one.");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-    }
-
-    @OnClick(R.id.btn_two)
-    void onTwoClicked()
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "2");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button two");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-    }*/
-        //ca-app-pub-9607577251750757~6139064330
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,82 +75,118 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ButterKnife.bind(this);
         //AppUtil.setTransparentStatusBar(this);
 
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(adsUtil.getBannerAdUnit());
 
-        mInterstitialAd=new MyInterstitialAd(this,AdsUtil.getAdUnit(AdsUtil.MULTIPLE_PHOTOS_INTERSTITIAL));
 
-
+        ((RelativeLayout) bannerAdView).addView(adView);
+        adView.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd = new MyInterstitialAd(this, AdsUtil.getAdUnit(AdsUtil.MULTIPLE_PHOTOS_INTERSTITIAL));
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-        openFragment(new HomeFragment());
+
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        mFragmentManager.beginTransaction().add(R.id.main_frame, mProfileFragment, "4").hide(mProfileFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.main_frame, mFavouritesFragment, "3").hide(mFavouritesFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.main_frame, mSearchFragment, "2").hide(mSearchFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.main_frame, mHomeFragment, "1").commit();
+
     }
 
-
-
-    public void openFragment(Fragment fragment) {
-        String backStateName = fragment.getClass().getName();
-        FragmentManager manager = getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
-
-        FragmentTransaction ft = manager.beginTransaction();
-
-        if (!fragmentPopped){ //fragment not in back stack, create it.
-            ft.replace(R.id.main_frame, fragment);
-        }
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.addToBackStack(backStateName);
-            ft.commit();
-    }
-
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
-            case R.id.navigation_home:
-                openFragment(HomeFragment.newInstance("",""));
-                return true;
-            case R.id.navigation_favourites:
-                openFragment(FavouritesFragment.newInstance("",""));
-                return true;
-            case R.id.navigation_explore:
-                openFragment(SearchFragment.newInstance("",""));
-                return true;
-        }
-        return false;
-    }
 
     @Override
     public void onBackPressed() {
 
-        Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.main_frame);
-        if(!(fragment instanceof OnBackPressedFragment) || !((OnBackPressedFragment) fragment).onBackPressed()){
-            if (getSupportFragmentManager().getBackStackEntryCount() == 1){
-                finish();
-            }
-            else {
-                super.onBackPressed();
-            }
+        if(active instanceof SearchFragment){
+           if(((SearchFragment) active).onBackPressed()){
+
+           }else{
+               existOnBackPressed();
+           }
+        }
+        else{
+            existOnBackPressed();
         }
 
+
+    }
+
+    public void existOnBackPressed(){
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        UserUtil userUtil =new UserUtil(this);
+        MyUser userUtil = new MyUser(this);
         userUtil.execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: "+photosInterstitialAdCounter);
-        if(photosInterstitialAdCounter>=5){
+        Log.d(TAG, "onResume: " + photosInterstitialAdCounter);
+        if (photosInterstitialAdCounter >= 5) {
 
             mInterstitialAd.showAd();
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                if(active.getTag().equals("1")){
+                    ((HomeFragment)active).scrollToTop();
+                }
+                mFragmentManager.beginTransaction().hide(active).show(mHomeFragment).commit();
+                active=mHomeFragment;
+                return true;
+            case R.id.navigation_explore:
+                if(active.getTag().equals("2")){
+                    ((SearchFragment)active).scrollToTop();
+                }
+                mFragmentManager.beginTransaction().hide(active).show(mSearchFragment).commit();
+                active=mSearchFragment;
+                return true;
+            case R.id.navigation_favourites:
+                if(active.getTag().equals("3")){
+                    ((FavouritesFragment)active).scrollToTop();
+                }
+                mFragmentManager.beginTransaction().hide(active).show(mFavouritesFragment).commit();
+                active=mFavouritesFragment;
+                return true;
+            case R.id.navigation_profile:
+                if(active.getTag().equals("4")){
+                    ((ProfileFragment)active).scrollToTop();
+                }
+                mFragmentManager.beginTransaction().hide(active).show(mProfileFragment).commit();
+                active=mProfileFragment;
+                return true;
+        }
+
+        return false;
+    }
+
 }

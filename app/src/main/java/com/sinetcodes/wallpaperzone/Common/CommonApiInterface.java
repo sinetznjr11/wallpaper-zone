@@ -55,4 +55,12 @@ public interface CommonApiInterface {
             @Query("count") int count,
             @Query("orientation") String orientation
             );
+
+    @GET("collections/{collection_id}/photos")
+    Call<List<Photos>> getCollectionPhotos(
+            @Path(value = "collection_id") int collectionId,
+            @Query("client_id") String clientId,
+            @Query("page") int page,
+            @Query("per_page") int perPage
+    );
 }

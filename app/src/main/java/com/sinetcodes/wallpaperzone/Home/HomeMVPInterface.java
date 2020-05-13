@@ -2,7 +2,7 @@ package com.sinetcodes.wallpaperzone.Home;
 
 import java.util.List;
 
-public interface ExploreMVPInterface {
+public interface HomeMVPInterface {
     interface view{
         void setContent(List<Object> items, String contentType);
         void onError(String error);

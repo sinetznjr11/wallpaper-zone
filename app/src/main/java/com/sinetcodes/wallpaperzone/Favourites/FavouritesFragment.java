@@ -130,4 +130,8 @@ public class FavouritesFragment extends Fragment  implements ObservableScrollVie
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
 
     }
+
+    public void scrollToTop(){
+        mScrollView.smoothScrollTo(0,0);
+    }
 }

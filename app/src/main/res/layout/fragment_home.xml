@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
-
-
-
 
     <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
         android:id="@+id/observable_scroll_view"
@@ -20,13 +18,13 @@
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="500dp"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"
                 app:sliderIndicatorAnimationDuration="600"
                 app:sliderIndicatorGravity="bottom|start"
-                app:sliderIndicatorMarginBottom="70dp"
+                app:sliderIndicatorMarginBottom="16dp"
                 app:sliderIndicatorMarginLeft="16dp"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="2dp"
@@ -40,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="80dp"
+                    android:layout_marginBottom="32dp"
                     android:padding="16dp">
 
                     <TextView
@@ -72,7 +70,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/user_placeholder"
-                        app:riv_corner_radius="20dp" />
+                        app:riv_corner_radius="20dp"
+                        app:riv_border_color="@color/colorPrimary"
+                        app:riv_border_width="1dp"/>
                 </RelativeLayout>
 
             </com.smarteist.autoimageslider.SliderView>
@@ -80,11 +80,11 @@
             <View
                 android:id="@+id/slider_overlay"
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="500dp"
                  />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="-64dp"
+                android:layout_marginTop="28dp"
                android:layout_below="@id/slider_overlay"
                 android:id="@+id/explore_vertical_rv"
                 android:layout_width="match_parent"

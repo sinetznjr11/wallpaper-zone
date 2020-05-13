@@ -5,18 +5,22 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_f"
+        android:menuCategory="secondary"
         android:title="" />
     <item
         android:id="@+id/navigation_explore"
         android:icon="@drawable/ic_compass"
+        android:menuCategory="secondary"
         android:title="" />
     <item
         android:id="@+id/navigation_favourites"
         android:icon="@drawable/ic_heart"
+        android:menuCategory="secondary"
         android:title="" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_person"
+        android:menuCategory="secondary"
         android:title="" />
 
 </menu>

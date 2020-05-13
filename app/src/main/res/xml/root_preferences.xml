@@ -1,0 +1,103 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    notifications-->
+    <PreferenceCategory app:title="@string/notification_header">
+
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_notification"
+            app:key="notification"
+            app:summaryOff="@string/notification_summary_off"
+            app:summaryOn="@string/notification_summary_on"
+            app:title="@string/notification_title" />
+
+    </PreferenceCategory>
+
+    <!--downloads-->
+    <PreferenceCategory app:title="@string/download_header">
+        <ListPreference
+            app:icon="@drawable/ic_image"
+            app:defaultValue="regular"
+            app:entries="@array/download_quality_entries"
+            app:entryValues="@array/download_quality_values"
+            app:key="wallpaper_quality"
+            app:title="@string/wallpaper_quality_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:icon="@drawable/ic_download"
+            app:defaultValue="regular"
+            app:entries="@array/download_quality_entries"
+            app:entryValues="@array/download_quality_values"
+            app:key="download_quality"
+            app:title="@string/download_quality_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <!--    about-->
+    <PreferenceCategory app:title="About">
+        <Preference
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/version"
+            app:icon="@drawable/ic_info"
+            app:title="Wallpaper Zone" />
+
+        <Preference
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:icon="@drawable/ic_file"
+            app:title="Privacy Policy" />
+    </PreferenceCategory>
+
+    <!--    support-->
+    <PreferenceCategory app:title="Support">
+        <Preference
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:icon="@drawable/ic_thumb_up"
+            app:summary="@string/rate_us_description"
+            app:title="Rate" />
+        <Preference
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/share_app_description"
+            app:icon="@drawable/ic_share"
+            app:title="Share this app" />
+        <Preference
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/report_description"
+            app:icon="@drawable/ic_error_outline"
+            app:title="Report" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Developer">
+        <Preference
+            app:icon="@drawable/ic_user"
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="Nepal, Pokhara"
+            app:title="Sinet Thapa" />
+        <Preference
+            app:icon="@drawable/ic_instagram"
+            app:key="pref_static_field_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:title="Find me on Instagram.">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.instagram.com/sinetsc30/"
+                />
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

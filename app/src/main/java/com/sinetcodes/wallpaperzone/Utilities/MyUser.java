@@ -21,14 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class UserUtil extends AsyncTask<String, String, String> {
+public class MyUser extends AsyncTask<String, String, String> {
 
     FirebaseAuth mAuth;
     Context mContext;
     private static final String TAG = "CreateDummyUser";
     DatabaseReference usersRef;
 
-    public UserUtil(Context context) {
+    public MyUser(Context context) {
         mContext = context;
         mAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
@@ -100,6 +100,8 @@ public class UserUtil extends AsyncTask<String, String, String> {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: created user in database");
+                            new FirebaseEventManager(mContext).dummySignUpEvent(user.getUid(),AppUtil.getDeviceId(mContext));
+
                         }
                     }
                 })
@@ -118,6 +120,7 @@ public class UserUtil extends AsyncTask<String, String, String> {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: login successful.");
+                            new FirebaseEventManager(mContext).dummyLoginEvent(FirebaseAuth.getInstance().getCurrentUser().getUid(),AppUtil.getDeviceId(mContext));
                         }
                     }
                 })

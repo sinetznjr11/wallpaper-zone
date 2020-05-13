@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sinetcodes.wallpaperzone.Search.ResultActivity">
+    tools:context="com.sinetcodes.wallpaperzone.Activities.ResultActivity">
 
     <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
         android:id="@+id/scroll_view"
-        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -19,64 +19,93 @@
             <RelativeLayout
                 android:id="@+id/top_layout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="250dp">
 
                 <ImageView
                     android:id="@+id/header_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/search_card" />
+                    android:foreground="@drawable/bg_overlay"
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/overline_text"
+                    style="@style/TextAppearance.MdcTypographyStyles.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Overline"
-                    android:textAllCaps="false"
                     android:layout_above="@id/header_text"
                     android:layout_marginStart="32dp"
-                    android:textColor="@color/textLowContrast"
-                    style="@style/TextAppearance.MdcTypographyStyles.Caption"
-                    />
+                    android:text="Overline"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textLowContrast" />
+
                 <TextView
                     android:id="@+id/header_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Search Query"
-                    android:textSize="26sp"
-                    android:textColor="@android:color/white"
-                    android:fontFamily="@font/playfair_black"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="32dp"
                     android:layout_marginBottom="64dp"
-                    android:layout_alignParentBottom="true"/>
+                    android:fontFamily="@font/playfair_black"
+                    android:text="Search Query"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp" />
             </RelativeLayout>
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@id/top_layout"
-                android:id="@+id/results_recycler_view"
+            <RelativeLayout
+                android:id="@+id/recycler_view_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="8dp"
-                android:paddingTop="48dp"
+                android:layout_below="@id/top_layout"
                 android:layout_marginTop="-32dp"
                 android:background="@drawable/round_border_layout"
-                />
+                android:elevation="10dp"
+                android:paddingStart="16dp"
+                android:paddingTop="42dp">
+                <include
+                    layout="@layout/layout_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_below="@id/downloads_header_text"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/results_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/downloads_header_text" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
-<androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:background="@android:color/transparent"
-    app:navigationIcon="@drawable/ic_back"
-    android:layout_marginTop="35dp"
-    android:layout_height="?attr/actionBarSize"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="35dp"
+        android:background="@android:color/transparent"
+        android:paddingStart="8dp"
+        app:navigationIcon="@drawable/ic_back" />
 
     <include
         android:id="@+id/loader_layout"
-        layout="@layout/loader_spinner"
-        android:visibility="gone"/>
+        layout="@layout/loader_vertical"
+        android:visibility="gone" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:id="@+id/scroll_to_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/ic_arrow_up"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+
+        />
 </RelativeLayout>

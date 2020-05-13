@@ -1,5 +1,6 @@
 package com.sinetcodes.wallpaperzone.Home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,13 +25,18 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCal
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
+import com.sinetcodes.wallpaperzone.Activities.ListActivity;
+import com.sinetcodes.wallpaperzone.POJO.CategoryItem;
+import com.sinetcodes.wallpaperzone.POJO.Collection;
 import com.sinetcodes.wallpaperzone.POJO.Photos;
 import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
 import com.sinetcodes.wallpaperzone.Home.Slider.SliderAdapter;
 import com.sinetcodes.wallpaperzone.POJO.ExploreItem;
 import com.sinetcodes.wallpaperzone.R;
+import com.sinetcodes.wallpaperzone.Activities.ResultActivity;
 import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
+import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -37,6 +45,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,15 +54,14 @@ public class HomeFragment
         extends
         Fragment
         implements
-        ExploreMVPInterface.view,
+        HomeMVPInterface.view,
         ObservableScrollViewCallbacks,
-        ExploreAdapter.OnParentItemClickListener,
-        ExploreHorizontalAdapter.OnChildItemClickedListener, SliderView.OnSliderPageListener {
+        HomeAdapter.OnParentItemClickListener,
+        HomeHorizontalAdapter.OnChildItemClickedListener,
+        SliderView.OnSliderPageListener {
 
-    /*
-    todo slider layout on top, html games
-     */
-    private ExplorePresenter explorePresenter;
+
+    private HomePresenter mHomePresenter;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -63,41 +71,34 @@ public class HomeFragment
 
     @BindView(R.id.app_bar)
     Toolbar mAppBarLayout;
-
     @BindView(R.id.imageSlider)
     SliderView sliderView;
-    //int slideViewHeight;
-
     @BindView(R.id.slider_overlay)
     View sliderOverlay;
-
     @BindView(R.id.featured_text)
     TextView featuredText;
-
     @BindView(R.id.featured_image)
     ImageView featuredImage;
-
     @BindView(R.id.featured_user)
     TextView featuredUser;
-
     @BindView(R.id.loader_layout)
     View progressLoader;
-
     @BindView(R.id.explore_vertical_rv)
     RecyclerView exploreVerticalRV;
-
     @BindView(R.id.observable_scroll_view)
     ObservableScrollView observableScrollView;
 
-    ExploreAdapter adapter;
+    HomeAdapter adapter;
+    SliderAdapter sliderAdapter = new SliderAdapter(getContext());
+
     List<ExploreItem> exploreItems = new ArrayList<>();
     List<Photos> popularPhotoList = new ArrayList<>();
     List<Photos> sliderItems = new ArrayList<>();
 
-    boolean isLoadingMore=false;
-    int popularPage=1;
+    boolean isLoadingMore = false;
+    int popularPage = 1;
 
-    private static final String TAG = "ExploreFragment";
+    private static final String TAG = "HomeFragment";
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -134,18 +135,26 @@ public class HomeFragment
         observableScrollView.setScrollViewCallbacks(this);
 
 
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         exploreVerticalRV.setLayoutManager(layoutManager);
         exploreVerticalRV.setNestedScrollingEnabled(false);
         exploreVerticalRV.setHasFixedSize(true);
 
-        explorePresenter = new ExplorePresenter(getContext(), this);
-        explorePresenter.getContent(ContentType.POPULAR, popularPage);
+        mHomePresenter = new HomePresenter(getContext(), this);
+        mHomePresenter.getContent(ContentType.POPULAR, popularPage);
+
+        sliderView.setSliderAdapter(sliderAdapter);
 
         //slider items attr
         setImageSliderAttr();
 
         return view;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     private void setImageSliderAttr() {
@@ -159,46 +168,45 @@ public class HomeFragment
 
     @Override
     public void setContent(List<Object> items, String contentType) {
-
         switch (contentType) {
             case ContentType.POPULAR:
 
                 //on first load case
-                if (popularPage==1) {
-                    Log.d(TAG, "setContent: "+popularPage+"st load");
+                if (popularPage == 1) {
+
+                    Log.d(TAG, "setContent: " + popularPage + "st load");
                     popularPhotoList = (List<Photos>) (List<?>) items;
                     for (int i = 0; i < 4; i++) {
                         sliderItems.add((Photos) items.get(i));
                     }
                     setSliderView(0);
+                    sliderAdapter.addItems(sliderItems);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getContext());
-                    sliderAdapter.renewItems(sliderItems);
-                    sliderView.setSliderAdapter(sliderAdapter);
 
-                    explorePresenter.getContent(ContentType.CATEGORY, 0);
 
-                }else{
-                    Log.d(TAG, "setContent: "+popularPage+" load");
-                    isLoadingMore=false;
-                   adapter.addPopularContent(items);
+                    Random random = new Random();
+                    mHomePresenter.getContent(ContentType.COLLECTIONS, random.nextInt(50));
+
+                } else {
+                    Log.d(TAG, "setContent: " + popularPage + " load");
+                    isLoadingMore = false;
+                    adapter.addPopularContent(items);
                 }
                 popularPage++;
 
                 //on load more case
 
 
-
                 break;
-            case ContentType.CATEGORY:
+            case ContentType.COLLECTIONS:
                 exploreItems.add(new ExploreItem(contentType, items));
-                explorePresenter.getContent(ContentType.COLLECTIONS, 1);
+                mHomePresenter.getContent(ContentType.CATEGORY, 0);
 
-                adapter = new ExploreAdapter(getContext(), this,exploreItems, this, this);
+                adapter = new HomeAdapter(getContext(), this, exploreItems, this, this);
                 exploreVerticalRV.setAdapter(adapter);
                 break;
 
-            case ContentType.COLLECTIONS:
+            case ContentType.CATEGORY:
                 exploreItems.add(new ExploreItem(contentType, items));
                 //finally setting popular items pulled at first
                 Collections.shuffle(popularPhotoList);
@@ -231,9 +239,9 @@ public class HomeFragment
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
 
         //infinite scroll
-        if(!isLoadingMore && scrollY==(observableScrollView.getChildAt(0).getMeasuredHeight()-observableScrollView.getMeasuredHeight())){
-            isLoadingMore=true;
-            explorePresenter.getContent(ContentType.POPULAR,popularPage);
+        if (!isLoadingMore && scrollY == (observableScrollView.getChildAt(0).getMeasuredHeight() - observableScrollView.getMeasuredHeight())) {
+            isLoadingMore = true;
+            mHomePresenter.getContent(ContentType.POPULAR, popularPage);
         }
 
         int baseColor = getResources().getColor(R.color.colorBackground);
@@ -274,26 +282,52 @@ public class HomeFragment
 
     @Override
     public void onChildItemClicked(View view, int parentPosition, int childPosition) {
-        switch (view.getId()) {
-            case R.id.single_image:
-                switch (exploreItems.get(parentPosition).getTitle()) {
-                    case ContentType.POPULAR:
-                        Intent intent = new Intent(getContext(), PhotoViewActivity.class);
-                        Photos photoItem = (Photos) exploreItems.get(parentPosition).getItems().get(childPosition);
-                        intent.putExtra("photoItem", photoItem);
-                        startActivity(intent);
-                        break;
-                }
 
+        switch (exploreItems.get(parentPosition).getTitle()) {
+            case ContentType.POPULAR:
+                Intent intent = new Intent(getContext(), PhotoViewActivity.class);
+                Photos photoItem = (Photos) exploreItems.get(parentPosition).getItems().get(childPosition);
+                intent.putExtra("photoItem", photoItem);
+                startActivity(intent);
+                break;
+
+            case ContentType.COLLECTIONS:
+                int collectionId = ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getId();
+                Log.d(TAG, "onChildItemClicked: " + collectionId + " url: " + ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getCoverPhoto().getUrls().getSmall());
+                Intent collectionIntent = new Intent(getContext(), ResultActivity.class);
+                collectionIntent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, StringsUtil.COLLECTION);
+                collectionIntent.putExtra("collection_id", collectionId);
+                collectionIntent.putExtra("collection_name", ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getTitle());
+                collectionIntent.putExtra("collection_image", ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getCoverPhoto().getUrls().getSmall());
+                startActivity(collectionIntent);
+                break;
+            case ContentType.CATEGORY:
+                String query = ((CategoryItem) exploreItems.get(parentPosition).getItems().get(childPosition)).getName();
+                Intent categoryIntent = new Intent(getContext(), ResultActivity.class);
+                categoryIntent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, StringsUtil.CATEGORY);
+                categoryIntent.putExtra("query", query);
+                startActivity(categoryIntent);
                 break;
         }
+
     }
 
     @Override
     public void onParentItemClicked(View view, int position) {
-        switch (view.getId()) {
-            case R.id.btn_show_all:
-                Log.d(TAG, "onParentItemClicked: Show all button clicked ");
+        switch (position) {
+            case 0:
+                if (R.id.btn_show_all == view.getId()) {
+                    Intent intent = new Intent(getContext(), ListActivity.class);
+                    intent.putExtra(StringsUtil.LIST_ACTIVITY_REQUEST, StringsUtil.COLLECTION);
+                    startActivity(intent);
+                }
+                break;
+            case 1:
+                if (R.id.btn_show_all == view.getId()) {
+                    Intent intent2 = new Intent(getContext(), ListActivity.class);
+                    intent2.putExtra(StringsUtil.LIST_ACTIVITY_REQUEST, StringsUtil.CATEGORY);
+                    startActivity(intent2);
+                }
                 break;
             default:
                 Log.d(TAG, "onParentItemClicked: antai");
@@ -323,5 +357,18 @@ public class HomeFragment
                 .into(featuredImage);
     }
 
+    public void scrollToTop() {
+        if (observableScrollView.getCurrentScrollY() == 0) reloadContent();
+        else observableScrollView.smoothScrollTo(0, 0);
+
+    }
+
+    public void reloadContent(){
+        popularPage=1;
+        sliderItems.removeAll(sliderItems);
+        adapter.removeItems();
+        sliderAdapter.removeItems();
+        mHomePresenter.getContent(ContentType.POPULAR,popularPage);
+    }
 
 }

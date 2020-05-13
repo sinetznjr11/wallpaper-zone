@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:scrollbars="none"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,13 +18,13 @@
             android:background="@drawable/favorites_bg" />
 
         <TextView
-            android:layout_marginStart="16dp"
-            style="@style/TextAppearance.MdcTypographyStyles.Headline4"
+            style="@style/TextAppearance.MdcTypographyStyles.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorites"
             android:layout_above="@id/favorites_recycler_view"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="48dp"
+            android:text="Favorites"
             android:textColor="@android:color/white" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -33,10 +33,10 @@
             android:layout_height="match_parent"
             android:layout_below="@id/header_bg"
             android:layout_marginTop="-32dp"
-            android:background="@drawable/round_single_corner_bg"
-            android:paddingStart="16dp"
+            android:background="@drawable/round_border_layout"
             android:elevation="10dp"
-            android:paddingTop="48dp"/>
+            android:paddingStart="16dp"
+            android:paddingTop="48dp" />
     </RelativeLayout>
 
 </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>

@@ -1,12 +1,15 @@
 package com.sinetcodes.wallpaperzone.Home.Slider;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
@@ -18,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
+    private static final String TAG = "SliderAdapter";
     private Context context;
     private List<Photos> mSliderItems = new ArrayList<>();
 
@@ -25,8 +29,13 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         this.context = context;
     }
 
-    public void renewItems(List<Photos> sliderItems) {
-        this.mSliderItems = sliderItems;
+    public void addItems(List<Photos> sliderItems) {
+        mSliderItems.addAll(sliderItems);
+        notifyDataSetChanged();
+    }
+
+    public void removeItems(){
+        mSliderItems.removeAll(mSliderItems);
         notifyDataSetChanged();
     }
 
@@ -37,7 +46,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.explore_image_slider_layout_item,null);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_layout_item,null);
         return new SliderAdapterVH(view);
     }
 
@@ -47,6 +56,16 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         Picasso.get()
                 .load(sliderItem.getUrls().getSmall())
                 .into(viewHolder.imageViewBackground);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoViewActivity.class);
+                Photos photoItem = mSliderItems.get(position);
+                intent.putExtra("photoItem", photoItem);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -63,5 +82,8 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+
     }
+
+
 }

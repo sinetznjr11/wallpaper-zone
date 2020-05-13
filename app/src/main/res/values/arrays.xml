@@ -1,0 +1,14 @@
+<resources>
+
+<!--    download quality-->
+    <string-array name="download_quality_entries">
+        <item>Full</item>
+        <item>Regular</item>
+        <item>Small</item>
+    </string-array>
+    <string-array name="download_quality_values">
+        <item>full</item>
+        <item>regular</item>
+        <item>small</item>
+    </string-array>
+</resources>

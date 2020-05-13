@@ -3,13 +3,24 @@ package com.sinetcodes.wallpaperzone.Utilities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
 
@@ -68,6 +79,45 @@ public class AppUtil {
         return uniqueID;
     }
 
+    public static DisplayMetrics getScreenResolution(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+
+        return metrics;
+
+       /* int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        return "{" + width + "," + height + "}";*/
+    }
+
+    public static Bitmap getResizedBitmap(Bitmap bm, Context context) {
+        //get screen resolution
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int newWidth=metrics.widthPixels;
+        int newHeight=metrics.heightPixels;
+
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
     public static String getRandomQuery() {
         Random random = new Random();
             String[] names = {
@@ -111,5 +161,21 @@ public class AppUtil {
             };
 
         return names[random.nextInt(names.length)];
+    }
+
+    public static Uri getLocalBitmapUri(Bitmap bmp,Context context) {
+        Uri bmpUri = null;
+        try {
+            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            //bmpUri = Uri.fromFile(file);
+
+            bmpUri= FileProvider.getUriForFile(context,"com.sinetcodes.wmaze.provider",file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 }

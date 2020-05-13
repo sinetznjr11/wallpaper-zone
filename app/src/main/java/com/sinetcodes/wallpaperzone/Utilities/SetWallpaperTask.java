@@ -1,8 +1,11 @@
 package com.sinetcodes.wallpaperzone.Utilities;
 
+import android.app.Activity;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -37,9 +40,9 @@ public class SetWallpaperTask extends AsyncTask<String, String, String> {
             Bitmap result = Picasso.get()
                     .load(urls[0])
                     .get();
-
             WallpaperManager wallpaperManager=WallpaperManager.getInstance(mContext);
-            wallpaperManager.setBitmap(result);
+            wallpaperManager.setBitmap( AppUtil.getResizedBitmap(result,mContext));
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -2,11 +2,13 @@ package com.sinetcodes.wallpaperzone.Utilities;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +23,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.security.auth.login.LoginException;
+
 public class Favorites {
     Context mContext;
     Photos mPhoto;
@@ -29,6 +33,7 @@ public class Favorites {
     OnAddFavoriteListener mListener;
     private static final String TAG = "Favourites";
     String date;
+
     public Favorites(Context context, Photos photo) {
         mContext = context;
         mPhoto = photo;
@@ -48,6 +53,7 @@ public class Favorites {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
                         mListener.onError("Photo already added to favorites.");
+                        //removeFavoriteFromDatabase();
                     }else{
                         addFavoriteToDatabase();
                     }
@@ -63,8 +69,32 @@ public class Favorites {
         }
     }
 
+    private void removeFavoriteFromDatabase() {
+        favRef
+                .child(mAuth.getUid())
+                .child(mPhoto.getId())
+                .removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            new FirebaseEventManager(mContext).removeFromFav(mPhoto.getUrls().getSmall(),AppUtil.getDeviceId(mContext));
+                            Toast.makeText(mContext, "Removed from favorites.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: Remove from favorites: "+e.getMessage() );
+                    }
+                });
+
+    }
+
     public void addOnCompleteListener(OnAddFavoriteListener favoriteListener) {
         this.mListener = favoriteListener;
+
     }
 
     private void addFavoriteToDatabase() {
@@ -78,6 +108,7 @@ public class Favorites {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: Successfully added to favorites.");
                             mListener.onComplete("Successfully added to favorites.");
+                            new FirebaseEventManager(mContext).addToFavEvent(mPhoto.getUrls().getSmall(),AppUtil.getDeviceId(mContext));
                         } else {
                             mListener.onError(task.getException().toString());
                         }

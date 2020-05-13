@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Wallpaper Zone</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="version">version %1$s</string>
+
+    <!--notifications preferences-->
+    <string name="notification_header">Notifications</string>
+    <string name="notification_title">Notification</string>
+    <string name="notification_summary_on">Get notifications and updates from us.</string>
+    <string name="notification_summary_off">No any notifications and updates.</string>
+
+    <!--    download quality preferences-->
+    <string name="download_header">Wallpapers</string>
+    <string name="download_quality_title">Download Quality</string>
+    <string name="wallpaper_quality_title">Wallpaper Quality</string>
+
+    <string name="rate_us_description">If you love Wallpaper Zone, please rate us on Google Play Store.</string>
+    <string name="report_description">Report bugs, feedback, complains, ideas, new features. </string>
+    <string name="share_app_description">Share Wallpaper Zone to your friends and families.</string>
+
+
 </resources>

@@ -83,7 +83,6 @@ public class MorePhotoAdapter extends RecyclerView.Adapter<MorePhotoAdapter.Phot
 
     public void addItem(List<Photos> photosList) {
         if (photosList != null) {
-            photosList.remove(0);
             mPhotos.addAll(photosList);
             notifyDataSetChanged();
         }
