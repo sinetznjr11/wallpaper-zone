@@ -36,6 +36,7 @@ public class CategoriesAdapter extends FirebaseRecyclerAdapter<CategoryItem,Cate
         holder.titleText.setText(categoryItem.getName());
         Glide.with(mContext)
                 .load(categoryItem.getImage_url())
+                .thumbnail(0.1f)
                 .into(holder.coverImage);
 
     }

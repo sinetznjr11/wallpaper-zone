@@ -71,35 +71,33 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
     }
 
     public void downloadFile(Photos photoItem, String operation) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String QUALITY;
+        String filePath = Environment.getExternalStorageDirectory() + "/Wallpaper_Zone/";
+        String url = "";
+        String fileName = "";
+
         mView.onDownloadStarted();
 
-        String QUALITY;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         if (operation.equals(StringsUtil.WALLPAPER_DOWNLOAD)) {
             QUALITY = sharedPreferences.getString("download_quality", "null");
         } else {
             QUALITY = sharedPreferences.getString("wallpaper_quality", "null");
         }
 
-        String filePath = Environment.getExternalStorageDirectory() + "/Wallpaper_Zone/";
-
-        String url = "";
-        String fileName = "";
-
-
         if (!QUALITY.equals("null")) {
             switch (QUALITY) {
                 case "full":
                     url = photoItem.getUrls().getFull();
-                    fileName = photoItem.getId() + "_full" + ".jpg";
+                    fileName = photoItem.getId() + StringsUtil.SEPARATOR +"full" + ".jpg";
                     break;
                 case "regular":
                     url = photoItem.getUrls().getRegular();
-                    fileName = photoItem.getId() + "_regular" + ".jpg";
+                    fileName = photoItem.getId() + StringsUtil.SEPARATOR +"regular" + ".jpg";
                     break;
                 case "small":
                     url = photoItem.getUrls().getSmall();
-                    fileName = photoItem.getId() + "_small" + ".jpg";
+                    fileName = photoItem.getId()+ StringsUtil.SEPARATOR  + "small" + ".jpg";
                     break;
             }
         }
@@ -117,7 +115,6 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
                         @Override
                         public void onStartOrResume() {
                             Log.d(TAG, "onStartOrResume: Download Started");
-
                         }
                     })
                     .setOnProgressListener(new OnProgressListener() {
@@ -136,15 +133,8 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
                         @Override
                         public void onDownloadComplete() {
                             new FirebaseEventManager(mContext).downloadWallpaperEvent(photoItem.getUrls().getSmall(), AppUtil.getDeviceId(mContext));
-                            MediaScannerConnection.scanFile(mContext,
-                                    new String[]{filePath}, null,
-                                    new MediaScannerConnection.OnScanCompletedListener() {
-                                        @Override
-                                        public void onScanCompleted(String path, Uri uri) {
-                                            //....
-                                            Log.d(TAG, "onScanCompleted: Check gallery");
-                                        }
-                                    });
+                            scanGallery(filePath);
+
                             Log.d(TAG, "onDownloadComplete: Download Completed");
 
                             if (operation.equals(StringsUtil.WALLPAPER_DOWNLOAD))
@@ -175,12 +165,11 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
 
     private void setWallpaper(File photoFile, String url) {
         Uri photoUri = FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName() + ".provider", photoFile);
-
-        try{
+        try {
             Intent wallpaperIntent = WallpaperManager.getInstance(mContext).getCropAndSetWallpaperIntent(photoUri);
             wallpaperIntent.setDataAndType(photoUri, "image/*");
             wallpaperIntent.putExtra("mimeType", "image/*");
-            ((Activity)mContext).startActivityForResult(wallpaperIntent, 13451);
+            ((Activity) mContext).startActivityForResult(wallpaperIntent, 13451);
         } catch (Exception e) {
             e.printStackTrace();
             Intent wallpaperIntent = new Intent(Intent.ACTION_ATTACH_DATA);
@@ -192,13 +181,6 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
             wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             mContext.startActivity(Intent.createChooser(wallpaperIntent, "Set as wallpaper"));
         }
-/*        Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.setDataAndType(photoUri, "image/jpeg");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.putExtra("mimeType", "image/jpeg");
-        mContext.startActivity(Intent.createChooser(intent, "Set as:"));*/
-
         new FirebaseEventManager(mContext).wallpaperSetEvent(url, AppUtil.getDeviceId(mContext));
     }
 
@@ -207,11 +189,27 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
         mView.showToast(message);
     }
 
+    private void scanGallery(String filePath) {
+        MediaScannerConnection.scanFile(mContext,
+                new String[]{filePath}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.d(TAG, "onScanCompleted: " + path + ", Uri: " + uri.toString());
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mView.showToast("Saved to " + path);
+                            }
+                        });
+                    }
+                });
+    }
+
     public void addOrRemoveFromFavorites(boolean isInFavorites, Photos photo) {
-        if (!isInFavorites) {
+        if (!isInFavorites)
             mModel.addFavoriteToDatabase(photo);
-        } else {
+        else
             mModel.removeFavoriteFromDatabase(photo);
-        }
     }
 }

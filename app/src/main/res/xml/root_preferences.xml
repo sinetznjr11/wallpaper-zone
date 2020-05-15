@@ -38,7 +38,7 @@
     <!--    about-->
     <PreferenceCategory app:title="About">
         <Preference
-            app:key="pref_static_field_key"
+            app:key="app_detail"
             app:persistent="false"
             app:selectable="true"
             app:summary="@string/version"
@@ -56,21 +56,25 @@
     <!--    support-->
     <PreferenceCategory app:title="Support">
         <Preference
-            app:key="pref_static_field_key"
+            app:key="rate_app"
             app:persistent="false"
             app:selectable="true"
             app:icon="@drawable/ic_thumb_up"
             app:summary="@string/rate_us_description"
-            app:title="Rate" />
+            app:title="Rate" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://play.google.com/store/apps/details?id=com.sinetcodes.wallpaperzone"/>
+        </Preference>
         <Preference
-            app:key="pref_static_field_key"
+            app:key="share_app"
             app:persistent="false"
             app:selectable="true"
             app:summary="@string/share_app_description"
             app:icon="@drawable/ic_share"
-            app:title="Share this app" />
+            app:title="Share this app">
+        </Preference>
         <Preference
-            app:key="pref_static_field_key"
+            app:key="report"
             app:persistent="false"
             app:selectable="true"
             app:summary="@string/report_description"

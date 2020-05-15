@@ -2,6 +2,7 @@ package com.sinetcodes.wallpaperzone.PhotoView;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,14 @@ import android.widget.AdapterView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.sinetcodes.wallpaperzone.POJO.Photos;
 import com.sinetcodes.wallpaperzone.R;
@@ -47,33 +54,16 @@ public class MorePhotoAdapter extends RecyclerView.Adapter<MorePhotoAdapter.Phot
 
     @Override
     public void onBindViewHolder(@NonNull PhotoViewHolder holder, int position) {
-        Picasso.get()
-                .load(mPhotos.get(position).getUrls().getThumb())
-                .into(holder.photoView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.d(TAG, "onSuccess: ");
-                        holder.photoView.setBackgroundColor(Color.parseColor(mPhotos.get(position).getColor()));
-                        Picasso.get()
-                                .load(mPhotos.get(position).getUrls().getSmall())
-                                .placeholder(holder.photoView.getDrawable())
-                                .into(holder.photoView, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                    }
+        holder.photoView.setBackgroundColor(Color.parseColor(mPhotos.get(position).getColor()));
+        Glide.with(mContext)
+                .load(mPhotos.get(position).getUrls().getRegular())
+                .thumbnail(
+                        Glide.with(mContext)
+                        .load(mPhotos.get(position).getUrls().getThumb())
+                        .thumbnail(0.1f)
+                )
+                .into(holder.photoView);
 
-                                    @Override
-                                    public void onError(Exception e) {
-
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
     }
 
     @Override

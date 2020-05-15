@@ -16,22 +16,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.sinetcodes.wallpaperzone.POJO.PhotoFile;
 import com.sinetcodes.wallpaperzone.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DownloadsAdapter extends RecyclerView.Adapter<DownloadsAdapter.DownloadViewHolder> {
 
-    File[] mFiles;
+    List<PhotoFile> photoFileList;
     Context mContext;
 
-    public DownloadsAdapter(File[] files, Context context) {
-        mFiles = files;
+    OnItemClickListener mOnItemClickListener;
+
+    public DownloadsAdapter(List<PhotoFile> photoFileList, Context context,OnItemClickListener onItemClickListener) {
+       this.photoFileList=photoFileList;
         mContext = context;
+        mOnItemClickListener=onItemClickListener;
     }
 
     @NonNull
@@ -39,21 +45,21 @@ public class DownloadsAdapter extends RecyclerView.Adapter<DownloadsAdapter.Down
     public DownloadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.single_explore_popular_item, parent, false);
-        DownloadViewHolder viewHolder = new DownloadViewHolder(view);
-        return viewHolder;
+        return new DownloadViewHolder(view,mOnItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DownloadViewHolder holder, int position) {
 
-        Uri imageUri = Uri.fromFile(mFiles[position]);
+
+        Uri imageUri = Uri.fromFile(photoFileList.get(position).getPhotoFile());
 
         Glide.with(mContext).load(imageUri).into(holder.itemImage);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         //Returns null, sizes are in the options variable
-        BitmapFactory.decodeFile(mFiles[position].getAbsolutePath(), options);
+        BitmapFactory.decodeFile(photoFileList.get(position).getPhotoFile().getAbsolutePath(), options);
         int width = options.outWidth;
         int height = options.outHeight;
 
@@ -66,19 +72,34 @@ public class DownloadsAdapter extends RecyclerView.Adapter<DownloadsAdapter.Down
 
     @Override
     public int getItemCount() {
-        return mFiles.length;
+        return photoFileList.size();
     }
 
-    public class DownloadViewHolder extends RecyclerView.ViewHolder {
+
+
+    public class DownloadViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        OnItemClickListener mOnItemClickListener;
+
         @BindView(R.id.single_image)
         RoundedImageView itemImage;
 
         @BindView(R.id.constraint_image)
         ConstraintLayout constraintLayout;
 
-        public DownloadViewHolder(@NonNull View itemView) {
+        public DownloadViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mOnItemClickListener=onItemClickListener;
+            itemImage.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            mOnItemClickListener.onItemClick(photoFileList.get(getAdapterPosition()));
+        }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(PhotoFile photoFile);
     }
 }

@@ -114,6 +114,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ExploreVH> {
     }
 
     public interface OnParentItemClickListener {
-        public void onParentItemClicked(View view, int position);
+         void onParentItemClicked(View view, int position);
     }
 }

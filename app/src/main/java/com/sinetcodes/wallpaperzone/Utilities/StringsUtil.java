@@ -4,8 +4,8 @@ public class StringsUtil {
 
     public static final String RANDOM="random";
     public static final String SEARCH="search";
-    public static final String COLLECTION="collection";
-    public static final String CATEGORY="category";
+    public static final String COLLECTION="Collection";
+    public static final String CATEGORY="Category";
 
     public static final String WALLPAPER_SET="wallpaper_set";
     public static final String WALLPAPER_DOWNLOAD="wallpaper_download";
@@ -24,4 +24,5 @@ public class StringsUtil {
     public static final String FIREBASE_CATEGORY="category";
 
 
+    public static final String SEPARATOR = "_____";
 }

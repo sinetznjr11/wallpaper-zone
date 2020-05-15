@@ -14,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
 import com.sinetcodes.wallpaperzone.POJO.CategoryItem;
@@ -60,37 +62,40 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
             case ContentType.CATEGORY:
                 List<CategoryItem> categoryItems = (List<CategoryItem>) (List<?>) list;
                 holder.itemName.setText(categoryItems.get(position).getName());
-                Picasso.get().load(categoryItems.get(position).getImage_url()).into(holder.itemImage);
+
+                Glide.with(context)
+                        .load(categoryItems.get(position).getImage_url())
+                        .thumbnail(0.1f)
+                        .into(holder.itemImage);
                 break;
 
             case ContentType.COLLECTIONS:
                 List<Collection> collectionList = (List<Collection>) (List<?>) list;
                 holder.itemImage.setBackgroundColor(Color.parseColor(collectionList.get(position).getCoverPhoto().getColor()));
-
                 holder.itemName.setText(collectionList.get(position).getTitle());
-                Picasso.get()
-                        .load(collectionList.get(position).getCoverPhoto().getUrls().getThumb())
-                        .placeholder(R.drawable.placeholder)
-                        .into(holder.itemImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Picasso.get()
-                                        .load(collectionList.get(position).getCoverPhoto().getUrls().getSmall())
-                                        .into(holder.itemImage);
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                            }
-                        });
                 holder.photoUserTV.setText(collectionList.get(position).getUser().getName());
                 holder.totalPhotosTV.setText(collectionList.get(position).getTotalPhotos() + " photos");
+
+                Glide.with(context)
+                        .load(collectionList.get(position).getCoverPhoto().getUrls().getSmall())
+                        .thumbnail(
+                                Glide.with(context)
+                                .load(collectionList.get(position).getCoverPhoto().getUrls().getThumb())
+                                .thumbnail(0.1f)
+                        )
+                        .into(holder.itemImage);
+
                 break;
 
             case ContentType.POPULAR:
                 List<Photos> photosList = (List<Photos>) (List<?>) list;
                 holder.itemImage.setBackgroundColor(Color.parseColor(photosList.get(position).getColor()));
-                Picasso.get().load(photosList.get(position).getUrls().getThumb()).into(holder.itemImage);
+
+                Glide.with(context)
+                        .load(photosList.get(position).getUrls().getThumb())
+                        .thumbnail(0.1f)
+                        .into(holder.itemImage);
+
 
                 String ratio = photosList.get(position).getWidth() + ":" + photosList.get(position).getHeight();
                 ConstraintSet set = new ConstraintSet();

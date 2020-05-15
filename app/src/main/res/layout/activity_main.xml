@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp">
+        >
 
         <FrameLayout
             android:id="@+id/main_frame"
@@ -34,21 +34,21 @@
         <RelativeLayout
             android:id="@+id/bannerAdView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_height="60dp"
+            android:layout_above="@id/bottom_navigation"
             android:layout_centerHorizontal="true"
             android:gravity="center" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            app:itemIconSize="@dimen/bottom_navigation_icon_size"
+            app:itemIconTint="@drawable/bottom_nav_selector"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_nav_menu" />
     </RelativeLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom"
-        app:itemIconSize="@dimen/bottom_navigation_icon_size"
-        app:itemIconTint="@drawable/bottom_nav_selector"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_nav_menu" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

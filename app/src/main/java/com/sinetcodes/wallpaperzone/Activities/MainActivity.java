@@ -34,9 +34,12 @@ import com.sinetcodes.wallpaperzone.Search.SearchFragment;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
 import com.sinetcodes.wallpaperzone.Utilities.MyUser;
+import com.sinetcodes.wallpaperzone.Utilities.NetworkConnectivity;
+import com.squareup.okhttp.internal.Network;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
         implements
@@ -45,20 +48,21 @@ public class MainActivity extends AppCompatActivity
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private static final String TAG = "MainActivity";
 
-    final Fragment mHomeFragment=new HomeFragment();
-    final Fragment mSearchFragment=new SearchFragment();
-    final Fragment mFavouritesFragment=new FavouritesFragment();
-    final Fragment mProfileFragment=new ProfileFragment();
+    final Fragment mHomeFragment = new HomeFragment();
+    final Fragment mSearchFragment = new SearchFragment();
+    final Fragment mFavouritesFragment = new FavouritesFragment();
+    final Fragment mProfileFragment = new ProfileFragment();
 
-    final FragmentManager mFragmentManager=getSupportFragmentManager();
+    final FragmentManager mFragmentManager = getSupportFragmentManager();
 
-    Fragment active= mHomeFragment;
+    Fragment active = mHomeFragment;
 
 
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
     @BindView(R.id.bannerAdView)
     View bannerAdView;
+
 
     MyInterstitialAd mInterstitialAd;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //AppUtil.setTransparentStatusBar(this);
+
 
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
@@ -96,24 +101,25 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     @Override
     public void onBackPressed() {
 
-        if(active instanceof SearchFragment){
-           if(((SearchFragment) active).onBackPressed()){
+        if (active instanceof SearchFragment) {
+            if (((SearchFragment) active).onBackPressed()) {
 
-           }else{
-               existOnBackPressed();
-           }
-        }
-        else{
+            } else {
+                existOnBackPressed();
+            }
+        } else {
             existOnBackPressed();
         }
 
 
     }
 
-    public void existOnBackPressed(){
+    public void existOnBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
@@ -126,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -157,32 +163,34 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                if(active.getTag().equals("1")){
-                    ((HomeFragment)active).scrollToTop();
+                if (active.getTag().equals("1")) {
+                    ((HomeFragment) active).scrollToTop();
                 }
                 mFragmentManager.beginTransaction().hide(active).show(mHomeFragment).commit();
-                active=mHomeFragment;
+                active = mHomeFragment;
+                ((HomeFragment)active).handleNetworkErrLayout();
                 return true;
             case R.id.navigation_explore:
-                if(active.getTag().equals("2")){
-                    ((SearchFragment)active).scrollToTop();
+                if (active.getTag().equals("2")) {
+                    ((SearchFragment) active).scrollToTop();
                 }
                 mFragmentManager.beginTransaction().hide(active).show(mSearchFragment).commit();
-                active=mSearchFragment;
+                active = mSearchFragment;
+                ((SearchFragment)active).handleNetworkErrLayout();
                 return true;
             case R.id.navigation_favourites:
-                if(active.getTag().equals("3")){
-                    ((FavouritesFragment)active).scrollToTop();
+                if (active.getTag().equals("3")) {
+                    ((FavouritesFragment) active).scrollToTop();
                 }
                 mFragmentManager.beginTransaction().hide(active).show(mFavouritesFragment).commit();
-                active=mFavouritesFragment;
+                active = mFavouritesFragment;
                 return true;
             case R.id.navigation_profile:
-                if(active.getTag().equals("4")){
-                    ((ProfileFragment)active).scrollToTop();
+                if (active.getTag().equals("4")) {
+                    ((ProfileFragment) active).scrollToTop();
                 }
                 mFragmentManager.beginTransaction().hide(active).show(mProfileFragment).commit();
-                active=mProfileFragment;
+                active = mProfileFragment;
                 return true;
         }
 

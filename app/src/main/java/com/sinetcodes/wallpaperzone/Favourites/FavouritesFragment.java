@@ -1,5 +1,6 @@
 package com.sinetcodes.wallpaperzone.Favourites;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nineoldandroids.view.ViewHelper;
 import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
 
@@ -27,7 +29,8 @@ import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FavouritesFragment extends Fragment  implements ObservableScrollViewCallbacks{
+public class FavouritesFragment extends Fragment
+        implements ObservableScrollViewCallbacks, FavoritesAdapter.OnItemClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -44,8 +47,7 @@ public class FavouritesFragment extends Fragment  implements ObservableScrollVie
     @BindView(R.id.header_bg)
     FrameLayout headerBg;
 
-    FirebaseAuth mAuth;
-    FavoritesAdapter mAdapter;
+    private FavoritesAdapter mAdapter;
 
     public static FavouritesFragment newInstance(String param1, String param2) {
         FavouritesFragment fragment = new FavouritesFragment();
@@ -77,15 +79,16 @@ public class FavouritesFragment extends Fragment  implements ObservableScrollVie
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
 
-        mAuth=FirebaseAuth.getInstance();
-        if(mAuth!=null){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        if(auth.getCurrentUser()!=null){
             DatabaseReference favRef = FirebaseDatabase.getInstance().getReference()
                     .child(StringsUtil.FIREBASE_FAVORITES)
-                    .child(mAuth.getCurrentUser().getUid());
+                    .child(auth.getCurrentUser().getUid());
             FirebaseRecyclerOptions<Photos> options= new FirebaseRecyclerOptions
                                                             .Builder<Photos>()
                                                                 .setQuery(favRef,Photos.class).build();
-            mAdapter=new FavoritesAdapter(options);
+            mAdapter=new FavoritesAdapter(options,this);
             mRecyclerView.setAdapter(mAdapter);
 
         }else{
@@ -134,4 +137,13 @@ public class FavouritesFragment extends Fragment  implements ObservableScrollVie
     public void scrollToTop(){
         mScrollView.smoothScrollTo(0,0);
     }
+
+    @Override
+    public void onItemClicked(Photos photo) {
+        Log.d(TAG, "onItemClicked: "+photo.getUrls().getSmall());
+        Intent intent = new Intent(getContext(), PhotoViewActivity.class);
+        intent.putExtra("photoItem", photo);
+        startActivity(intent);
+    }
+
 }

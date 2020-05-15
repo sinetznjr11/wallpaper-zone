@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.SetWallpaperTask;
-
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

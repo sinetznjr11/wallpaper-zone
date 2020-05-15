@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.sinetcodes.wallpaperzone.POJO.Photos;
 import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
@@ -39,10 +40,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         notifyDataSetChanged();
     }
 
-    public void deleteItem(int position) {
-        this.mSliderItems.remove(position);
-        notifyDataSetChanged();
-    }
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {

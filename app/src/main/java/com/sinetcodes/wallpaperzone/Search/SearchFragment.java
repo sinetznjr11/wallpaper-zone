@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,8 @@ import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.POJO.Photos;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
+import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.Utilities.NetworkConnectivity;
 import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
 
 
@@ -59,13 +62,15 @@ public class SearchFragment extends Fragment
     View searchLayout;
     @BindView(R.id.search_view)
     SearchView mSearchView;
+    @BindView(R.id.no_connectivity_layout)
+    View noConnectionLayout;
+    @BindView(R.id.search_fragment_recycler_view)
+    RecyclerView mRecyclerView;
 
 
     private RewardedVideoAd mRewardedVideoAd;
     boolean isBtnReloadClicked = false;
 
-    @BindView(R.id.search_fragment_recycler_view)
-    RecyclerView mRecyclerView;
     SearchMVPInterface.presenter presenter;
     int count = 1;
 
@@ -93,6 +98,7 @@ public class SearchFragment extends Fragment
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,14 +118,19 @@ public class SearchFragment extends Fragment
 
 
         presenter = new SearchPresenter(this, getContext());
-        presenter.getContent(AppUtil.getRandomQuery(), -1, 20, StringsUtil.RANDOM);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
 
+        checkConnection();
 
         return view;
+    }
+
+    @OnClick(R.id.btn_retry)
+    void onBtnRetryClicked() {
+        checkConnection();
     }
 
     @OnClick(R.id.random_card_layout)
@@ -310,6 +321,9 @@ public class SearchFragment extends Fragment
     }
 
     private void startSearchActivity(String query) {
+
+        new FirebaseEventManager(getContext()).searchQueryEvent(query);
+
         Intent intent = new Intent(getContext(), ResultActivity.class);
         intent.putExtra(StringsUtil.SEARCH_QUERY, query);
         intent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, this.getClass().getSimpleName());
@@ -335,11 +349,32 @@ public class SearchFragment extends Fragment
 
     public void scrollToTop(){
         if(mScrollView.getCurrentScrollY()==0){
-            presenter.getContent(AppUtil.getRandomQuery(), -1, 20, StringsUtil.RANDOM);
-            count=1;
+           checkConnection();
         }
         else
         mScrollView.smoothScrollTo(0,0);
+    }
+
+    private void checkConnection() {
+        if (NetworkConnectivity.checkConnection(getContext())) {
+            loadContent();
+            noConnectionLayout.setVisibility(View.GONE);
+        }else {
+            noConnectionLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    public void loadContent() {
+        count=1;
+        presenter.getContent(AppUtil.getRandomQuery(), -1, 20, StringsUtil.RANDOM);
+    }
+
+    public void handleNetworkErrLayout() {
+        if (NetworkConnectivity.checkConnection(getContext()))
+            noConnectionLayout.setVisibility(View.GONE);
+        else
+            noConnectionLayout.setVisibility(View.VISIBLE);
     }
 
 }

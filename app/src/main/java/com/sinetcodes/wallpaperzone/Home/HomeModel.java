@@ -101,7 +101,7 @@ public class HomeModel implements HomeMVPInterface.model {
         Log.d(TAG, "askPopular: "+page);
         ApiClient apiClient = new ApiClient(context);
         CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
-        Call<List<Photos>> call=apiInterface.getPhotos(SetUpRetrofit.getUnsplashClientId(),page,20);
+        Call<List<Photos>> call=apiInterface.getPhotos(SetUpRetrofit.getUnsplashClientId(),page,30);
         call.enqueue(new Callback<List<Photos>>() {
             @Override
             public void onResponse(Call<List<Photos>> call, Response<List<Photos>> response) {

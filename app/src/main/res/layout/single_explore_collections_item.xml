@@ -40,11 +40,13 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextAppearance.MdcTypographyStyles.Overline"
                 android:id="@+id/total_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="44 photos"
-                android:textColor="@color/textLowContrast"
+                android:textAllCaps="false"
+                android:textColor="@color/textMidContrast"
                 android:textSize="10sp" />
 
             <TextView
@@ -55,7 +57,7 @@
                 android:text="Lorem Ipsum Lorem Ipsum"
                 android:lineHeight="25dp"
                 android:textColor="@android:color/white"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/photo_user"
@@ -63,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="John Doe"
                 android:textColor="@color/textLowContrast"
-                android:textSize="12sp" />
+                style="@style/TextAppearance.MdcTypographyStyles.Caption" />
         </LinearLayout>
 
 

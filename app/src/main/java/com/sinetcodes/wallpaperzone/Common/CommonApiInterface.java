@@ -21,6 +21,12 @@ public interface CommonApiInterface {
             @Query("page") int page,
             @Query("per_page") int perPage);
 
+    @GET("photos/{id}")
+    Call<Photos> getPhoto(
+            @Path(value = "id") String photoId,
+            @Query("client_id") String clientId
+    );
+
     @GET("collections")
     Call<List<Collection>> getCollection(
             @Query("client_id") String clientId,
@@ -63,4 +69,6 @@ public interface CommonApiInterface {
             @Query("page") int page,
             @Query("per_page") int perPage
     );
+
+
 }

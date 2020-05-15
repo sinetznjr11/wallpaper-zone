@@ -3,6 +3,7 @@ package com.sinetcodes.wallpaperzone.Favourites;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -21,14 +22,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class FavoritesAdapter extends FirebaseRecyclerAdapter<Photos, FavoritesAdapter.FavoriteViewHolder> {
+
+    OnItemClickListener mListener;
+
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public FavoritesAdapter(@NonNull FirebaseRecyclerOptions options) {
+    FavoritesAdapter(@NonNull FirebaseRecyclerOptions options, OnItemClickListener onItemClickListener) {
         super(options);
+        mListener = onItemClickListener;
     }
 
     @Override
@@ -41,6 +46,7 @@ class FavoritesAdapter extends FirebaseRecyclerAdapter<Photos, FavoritesAdapter.
                         Picasso.get()
                                 .load(photos.getUrls().getSmall());
                     }
+
                     @Override
                     public void onError(Exception e) {
 
@@ -55,22 +61,38 @@ class FavoritesAdapter extends FirebaseRecyclerAdapter<Photos, FavoritesAdapter.
 
     @NonNull
     @Override
-    public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_explore_popular_item, parent, false);
-        FavoriteViewHolder viewHolder=new FavoriteViewHolder(view);
-        return viewHolder;
+    public Photos getItem(int position) {
+        return super.getItem(position);
     }
 
-    class FavoriteViewHolder extends RecyclerView.ViewHolder {
+    @NonNull
+    @Override
+    public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_explore_popular_item, parent, false);
+        return new FavoriteViewHolder(view, mListener);
+    }
+
+    class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.constraint_image)
         ConstraintLayout constraintLayout;
         @BindView(R.id.single_image)
         RoundedImageView mImageView;
-        public FavoriteViewHolder(@NonNull View itemView) {
+        OnItemClickListener mOnItemClickListener;
+
+        FavoriteViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
+            mOnItemClickListener = onItemClickListener;
+            mImageView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnItemClickListener.onItemClicked(getItem(getAdapterPosition()));
         }
     }
 
-
+    public interface OnItemClickListener {
+        void onItemClicked(Photos photo);
+    }
 }

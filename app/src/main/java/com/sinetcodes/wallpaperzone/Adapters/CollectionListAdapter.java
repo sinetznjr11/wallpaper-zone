@@ -51,12 +51,13 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 
         Glide.with(mContext)
                 .load(mCollectionList.get(position).getCoverPhoto().getUrls().getSmall())
+                .thumbnail(0.1f)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(holder.collectionCoverImage);
 
         Glide.with(mContext)
                 .load(mCollectionList.get(position).getUser().getProfile_image().getMedium())
-                .thumbnail(0.5f)
+                .thumbnail(0.1f)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(holder.collectionUserImage);
     }

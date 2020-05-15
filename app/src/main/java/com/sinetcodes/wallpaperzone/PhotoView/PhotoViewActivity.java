@@ -1,6 +1,7 @@
 package com.sinetcodes.wallpaperzone.PhotoView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.sinetcodes.wallpaperzone.Activities.MainActivity;
 import com.sinetcodes.wallpaperzone.Dialogs.DownloadSuccessDialog;
@@ -29,10 +33,8 @@ import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
 import com.sinetcodes.wallpaperzone.Utilities.Favorites;
 import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.SetWallpaperTask;
 import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +51,8 @@ PhotoViewActivity
         implements
         MorePhotoAdapter.OnPhotoClickedListener,
         UserPhotosMVPInterface.view,
-        Favorites.OnAddFavoriteListener,
-        SetWallpaperTask.OnWallpaperSetListener {
+        Favorites.OnAddFavoriteListener
+        {
 
     private static final String TAG = "PhotoViewActivity";
     public static final int PERMISSION_WRITE_STORAGE = 111;
@@ -84,7 +86,7 @@ PhotoViewActivity
 
     boolean isShowingControls = true;
     int currentPosition = 0;
-    boolean mIsInFavorites=false;
+    boolean mIsInFavorites = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,40 +115,38 @@ PhotoViewActivity
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
-                presenter.checkIsPhotoInFavorites(mPhotoList.get(position).getId());
-
-                MainActivity.photosInterstitialAdCounter++;
-                Log.d(TAG, "onPageSelected: user=> " + mPhotoList.get(position).getUser().getName() + " __" + mPhotoList.get(position).getDescription());
+                Log.d(TAG, "onPageSelected: url => " + mPhotoList.get(position).getUrls().getThumb());
 
                 setCurrentPosition(position);
+                MainActivity.photosInterstitialAdCounter++;
 
+                presenter.checkIsPhotoInFavorites(mPhotoList.get(position).getId());
                 userNameTV.setText(mPhotoList.get(position).getUser().getName());
 
                 //description
                 if (mPhotoList.get(position).getDescription() != null) {
-                    if (mPhotoList.get(position).getDescription().equals("")) {
-                        Log.d(TAG, "onPageSelected: ya xiryo1");
+                    if (mPhotoList.get(position).getDescription().equals(""))
                         descriptionTV.setText(mPhotoList.get(position).getUser().getName() + " Collections");
-                    } else {
-                        Log.d(TAG, "onPageSelected: ya xiryo2");
+                    else
                         descriptionTV.setText(mPhotoList.get(position).getDescription());
-                    }
-                } else {
-                    Log.d(TAG, "onPageSelected: ya xiryo3");
+                } else
                     descriptionTV.setText(mPhotoList.get(position).getUser().getName() + " Collections");
-                }
+
                 //alternate description
                 if (mPhotoList.get(position).getAlt_description() != null)
                     subDescriptionTV.setText(mPhotoList.get(position).getAlt_description());
                 else
                     subDescriptionTV.setText(mPhotoList.get(position).getUser().getName() + " Collections");
 
-
-                Picasso.get()
-                        .load(mPhotoList.get(position).getUser().getProfile_image().getSmall())
-                        .placeholder(R.drawable.user_placeholder)
+                Glide.with(PhotoViewActivity.this)
+                        .load(mPhotoList.get(position).getUser().getProfile_image().getMedium())
+                        .thumbnail(
+                                Glide.with(PhotoViewActivity.this)
+                                        .load(mPhotoList.get(position).getUser().getProfile_image().getSmall())
+                                        .thumbnail(0.1f)
+                        )
                         .into(userPhoto);
+
             }
         };
         mViewPager.registerOnPageChangeCallback(mCallback);
@@ -155,31 +155,28 @@ PhotoViewActivity
 
     @OnClick(R.id.btn_share)
     void onBtnShareClicked() {
-        Picasso.get()
+
+        Glide.with(PhotoViewActivity.this)
+                .asBitmap()
                 .load(mPhotoList.get(getCurrentPosition()).getUrls().getSmall())
-                .into(new Target() {
+                .into(new CustomTarget<Bitmap>() {
                     @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Intent i = new Intent(Intent.ACTION_SEND);
                         new FirebaseEventManager(PhotoViewActivity.this).shareEvent(mPhotoList.get(getCurrentPosition()).getUrls().getSmall(), AppUtil.getDeviceId(PhotoViewActivity.this));
                         i.setType("*/*");
                         i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing wallpaper from Wallpaper Zone app. You can download the app here, https://play.google.com/store/apps/details?id=" + getPackageName());
-                        i.putExtra(Intent.EXTRA_STREAM, AppUtil.getLocalBitmapUri(bitmap, PhotoViewActivity.this));
+                        i.putExtra(Intent.EXTRA_STREAM, AppUtil.getLocalBitmapUri(resource, PhotoViewActivity.this));
                         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(Intent.createChooser(i, "Share Image"));
                     }
 
                     @Override
-                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                        Log.e(TAG, "onBitmapFailed: " + e.getMessage());
-                        Toast.makeText(PhotoViewActivity.this, "Failed to share image. " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
 
                     }
                 });
+
     }
 
     @Override
@@ -288,7 +285,7 @@ PhotoViewActivity
 
     @Override
     public void setIsInFavorites(boolean isInFavorites) {
-            mIsInFavorites=isInFavorites;
+        mIsInFavorites = isInFavorites;
         if (isInFavorites) {
             btnFav.setImageResource(R.drawable.ic_heart);
             btnFav.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_red_dark), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -304,10 +301,7 @@ PhotoViewActivity
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onCompletedSetting() {
-        dialog.showSuccessLayout();
-    }
+
 
     private void showLayout() {
         topControls.animate()

@@ -24,6 +24,8 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.card.MaterialCardView;
 import com.nineoldandroids.view.ViewHelper;
 import com.sinetcodes.wallpaperzone.Activities.ListActivity;
 import com.sinetcodes.wallpaperzone.POJO.CategoryItem;
@@ -36,6 +38,7 @@ import com.sinetcodes.wallpaperzone.POJO.ExploreItem;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Activities.ResultActivity;
 import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
+import com.sinetcodes.wallpaperzone.Utilities.NetworkConnectivity;
 import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -49,6 +52,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeFragment
         extends
@@ -70,7 +74,9 @@ public class HomeFragment
     private String mParam2;
 
     @BindView(R.id.app_bar)
-    Toolbar mAppBarLayout;
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.image_slider_card)
+    View imageSliderCard;
     @BindView(R.id.imageSlider)
     SliderView sliderView;
     @BindView(R.id.slider_overlay)
@@ -87,9 +93,11 @@ public class HomeFragment
     RecyclerView exploreVerticalRV;
     @BindView(R.id.observable_scroll_view)
     ObservableScrollView observableScrollView;
+    @BindView(R.id.no_connectivity_layout)
+    View noConnectionLayout;
 
-    HomeAdapter adapter;
-    SliderAdapter sliderAdapter = new SliderAdapter(getContext());
+    private HomeAdapter adapter;
+    private SliderAdapter sliderAdapter;
 
     List<ExploreItem> exploreItems = new ArrayList<>();
     List<Photos> popularPhotoList = new ArrayList<>();
@@ -124,31 +132,40 @@ public class HomeFragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
-        Log.d(TAG, "onCreateView: " + AppUtil.getStatusBarHeight(getActivity()));
-        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, AppUtil.getStatusBarHeight(getActivity()), 0, 0);
-
-        mAppBarLayout.setLayoutParams(params);
-
+        //setTopMarginForFullScreenMode();
 
         observableScrollView.setScrollViewCallbacks(this);
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         exploreVerticalRV.setLayoutManager(layoutManager);
         exploreVerticalRV.setNestedScrollingEnabled(false);
         exploreVerticalRV.setHasFixedSize(true);
 
-        mHomePresenter = new HomePresenter(getContext(), this);
-        mHomePresenter.getContent(ContentType.POPULAR, popularPage);
+        adapter = new HomeAdapter(getContext(), this, exploreItems, this, this);
+        exploreVerticalRV.setAdapter(adapter);
 
+        mHomePresenter = new HomePresenter(getContext(), this);
+
+        sliderAdapter = new SliderAdapter(getContext());
         sliderView.setSliderAdapter(sliderAdapter);
 
         //slider items attr
         setImageSliderAttr();
 
+        checkConnection();
+
         return view;
+    }
+
+    @OnClick(R.id.btn_retry)
+    void onBtnRetryClicked() {
+        checkConnection();
+    }
+
+    private void setTopMarginForFullScreenMode() {
+        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, AppUtil.getStatusBarHeight(getActivity()), 0, 0);
+        mAppBarLayout.setLayoutParams(params);
     }
 
 
@@ -162,7 +179,6 @@ public class HomeFragment
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         sliderView.startAutoCycle();
         sliderView.setCurrentPageListener(this);
-
     }
 
 
@@ -182,8 +198,6 @@ public class HomeFragment
                     setSliderView(0);
                     sliderAdapter.addItems(sliderItems);
 
-
-
                     Random random = new Random();
                     mHomePresenter.getContent(ContentType.COLLECTIONS, random.nextInt(50));
 
@@ -201,9 +215,6 @@ public class HomeFragment
             case ContentType.COLLECTIONS:
                 exploreItems.add(new ExploreItem(contentType, items));
                 mHomePresenter.getContent(ContentType.CATEGORY, 0);
-
-                adapter = new HomeAdapter(getContext(), this, exploreItems, this, this);
-                exploreVerticalRV.setAdapter(adapter);
                 break;
 
             case ContentType.CATEGORY:
@@ -238,6 +249,8 @@ public class HomeFragment
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
 
+        if (scrollY == 0) showLayout();
+
         //infinite scroll
         if (!isLoadingMore && scrollY == (observableScrollView.getChildAt(0).getMeasuredHeight() - observableScrollView.getMeasuredHeight())) {
             isLoadingMore = true;
@@ -245,10 +258,11 @@ public class HomeFragment
         }
 
         int baseColor = getResources().getColor(R.color.colorBackground);
-        int height = sliderView.getHeight() / 2;
+        int height = sliderOverlay.getHeight() / 2;
         float alpha = Math.min(1, (float) scrollY / height);
-        sliderView.setForeground(new ColorDrawable(ScrollUtils.getColorWithAlpha(alpha, baseColor)));
-        ViewHelper.setTranslationY(sliderView, scrollY / 2);
+        sliderOverlay.setBackground(new ColorDrawable(ScrollUtils.getColorWithAlpha(alpha, baseColor)));
+        ViewHelper.setTranslationY(imageSliderCard, scrollY / 2);
+        ViewHelper.setTranslationY(sliderOverlay, scrollY / 2);
     }
 
     @Override
@@ -261,7 +275,8 @@ public class HomeFragment
         if (scrollState == ScrollState.DOWN) {
             showLayout();
         } else if (scrollState == ScrollState.UP) {
-            hideLayout();
+            if (observableScrollView.getCurrentScrollY() != 0)
+                hideLayout();
         }
     }
 
@@ -358,17 +373,34 @@ public class HomeFragment
     }
 
     public void scrollToTop() {
-        if (observableScrollView.getCurrentScrollY() == 0) reloadContent();
+        if (observableScrollView.getCurrentScrollY() == 0) checkConnection();
         else observableScrollView.smoothScrollTo(0, 0);
 
     }
 
-    public void reloadContent(){
-        popularPage=1;
+    private void checkConnection() {
+        if (NetworkConnectivity.checkConnection(getContext())) {
+            reloadContent();
+            noConnectionLayout.setVisibility(View.GONE);
+        } else {
+            noConnectionLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    public void reloadContent() {
+        popularPage = 1;
         sliderItems.removeAll(sliderItems);
         adapter.removeItems();
         sliderAdapter.removeItems();
-        mHomePresenter.getContent(ContentType.POPULAR,popularPage);
+        mHomePresenter.getContent(ContentType.POPULAR, popularPage);
     }
+
+    public void handleNetworkErrLayout() {
+        if (NetworkConnectivity.checkConnection(getContext()))
+            noConnectionLayout.setVisibility(View.GONE);
+        else
+            noConnectionLayout.setVisibility(View.VISIBLE);
+        }
 
 }

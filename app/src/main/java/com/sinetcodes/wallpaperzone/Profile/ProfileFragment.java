@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,14 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.nineoldandroids.view.ViewHelper;
 import com.sinetcodes.wallpaperzone.Activities.SettingsActivity;
 import com.sinetcodes.wallpaperzone.Adapters.DownloadsAdapter;
+import com.sinetcodes.wallpaperzone.POJO.PhotoFile;
+import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,8 +36,10 @@ import butterknife.OnClick;
 public class ProfileFragment extends Fragment
         implements
         ProfileImpl.view,
-        ObservableScrollViewCallbacks {
+        ObservableScrollViewCallbacks,
+        DownloadsAdapter.OnItemClickListener {
 
+    private static final String TAG = "ProfileFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -46,8 +54,11 @@ public class ProfileFragment extends Fragment
     View headerBg;
     @BindView(R.id.empty_layout)
     View emptyLayout;
+    @BindView(R.id.loader)
+    View loader;
 
     ProfileImpl.presenter mPresenter;
+    private boolean isPhotoClicked = false;
 
     @OnClick(R.id.btn_settings)
     void btnSettingsClicked() {
@@ -96,23 +107,34 @@ public class ProfileFragment extends Fragment
     }
 
     @Override
-    public void setDownloads(File[] fileList) {
-        if (fileList.length > 0) {
-            DownloadsAdapter adapter = new DownloadsAdapter(fileList, getContext());
+    public void setDownloads(List<PhotoFile> photoFileList) {
+        if (photoFileList.size() > 0) {
+            DownloadsAdapter adapter = new DownloadsAdapter(photoFileList, getContext(), this);
             mRecyclerView.setAdapter(adapter);
+            emptyLayout.setVisibility(View.GONE);
         } else {
             emptyLayout.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public void showProgress() {
+    public void setPhotoFromId(Photos photo) {
+        if (isPhotoClicked) {
+            isPhotoClicked = false;
+            Intent intent = new Intent(getContext(), PhotoViewActivity.class);
+            intent.putExtra("photoItem", photo);
+            startActivity(intent);
+        }
+    }
 
+    @Override
+    public void showProgress() {
+        loader.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        loader.setVisibility(View.GONE);
     }
 
     @Override
@@ -135,7 +157,20 @@ public class ProfileFragment extends Fragment
 
     }
 
-    public void scrollToTop(){
-        mScrollView.smoothScrollTo(0,0);
+    public void scrollToTop() {
+        if (mScrollView.getCurrentScrollY() == 0)
+            mPresenter.getDownloads();
+        else
+            mScrollView.smoothScrollTo(0, 0);
+    }
+
+    @Override
+    public void onItemClick(PhotoFile photoFile) {
+        isPhotoClicked = true;
+        mPresenter.getPhotoFromId(photoFile.getKey());
+    }
+
+    public void reloadContent() {
+        mPresenter.getDownloads();
     }
 }
