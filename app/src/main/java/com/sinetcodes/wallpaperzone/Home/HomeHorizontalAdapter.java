@@ -109,11 +109,15 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
         }
     }
 
+    public void removeAll(){
+        list.removeAll(list);
+    }
 
     public void addPopularContent(List<Object> photos) {
-        if (type == ContentType.POPULAR)
-            list.addAll(photos);
-            notifyDataSetChanged();
+        if (type.equals(ContentType.POPULAR))
+           {
+               list.addAll(photos);
+           }
     }
 
     @Override

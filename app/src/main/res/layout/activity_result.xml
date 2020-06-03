@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context="com.sinetcodes.wallpaperzone.Activities.ResultActivity">
 
     <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
@@ -60,7 +61,7 @@
                 android:layout_marginTop="-32dp"
                 android:background="@drawable/round_border_layout"
                 android:elevation="10dp"
-                android:paddingStart="16dp"
+                android:paddingStart="10dp"
                 android:paddingTop="42dp">
                 <include
                     layout="@layout/layout_empty"
@@ -99,13 +100,29 @@
         android:id="@+id/scroll_to_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
         app:srcCompat="@drawable/ic_arrow_up"
         app:tint="@android:color/white"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="mini"
-
         />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:id="@+id/fab_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/ic_search"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="normal"
+        />
+
+    <include layout="@layout/search_layout"/>
+
 </RelativeLayout>

@@ -25,6 +25,7 @@ import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
 import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,7 +107,8 @@ public class SettingsActivity extends AppCompatActivity
                     Intent i = new Intent(Intent.ACTION_SEND);
                     new FirebaseEventManager(getContext()).shareAppEvent(AppUtil.getDeviceId(getContext()));
                     i.setType("*/*");
-                    i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing app called Wallpaper Zone.\nYou can download the app here, https://play.google.com/store/apps/details?id=com.sinetcodes.wallpaperzone" );
+                    i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing app called Wallpaper Zone.\n" +
+                            "You can download the app here, "+ StringsUtil.PLAYSTORE_LINK+StringsUtil.PACKAGE_NAME);
                     startActivity(Intent.createChooser(i, "Share App"));
                     return true;
 

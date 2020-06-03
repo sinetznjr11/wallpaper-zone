@@ -7,6 +7,7 @@ import com.sinetcodes.wallpaperzone.Common.ApiClient;
 import com.sinetcodes.wallpaperzone.Common.CommonApiInterface;
 import com.sinetcodes.wallpaperzone.POJO.Photos;
 import com.sinetcodes.wallpaperzone.POJO.Results;
+import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
 import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
 
 import java.util.List;
@@ -45,8 +46,8 @@ public class SearchModel implements SearchMVPInterface.model {
                 @Override
                 public void onResponse(Call<List<Photos>> call, Response<List<Photos>> response) {
                     if (response.isSuccessful()) {
-
                         presenter.takeContent(response.body());
+                        presenter.takeTotalResults(response.body().size());
                     }
                 }
 
@@ -64,6 +65,8 @@ public class SearchModel implements SearchMVPInterface.model {
 
     @Override
     public void askSearchResults(String query, int page) {
+
+        new FirebaseEventManager(context).searchQueryEvent(query);
         ApiClient apiClient = new ApiClient(context);
         CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
         Call<Results> call = apiInterface.getSearchResults(
@@ -81,6 +84,7 @@ public class SearchModel implements SearchMVPInterface.model {
                 public void onResponse(Call<Results> call, Response<Results> response) {
                     if (response.isSuccessful()) {
                         presenter.takeContent(response.body().getPhotos());
+                        presenter.takeTotalResults(response.body().getTotal());
                     }
                 }
 

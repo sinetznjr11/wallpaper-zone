@@ -54,8 +54,11 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
     @Override
     public void takeContent(List<Photos> photosList) {
         if (mView != null) {
-            photosList.remove(0);
-            mView.setContent(photosList);
+            if(photosList.size()>0){
+                photosList.remove(0);
+                mView.setContent(photosList);
+            }
+
         }
 
     }
@@ -71,6 +74,7 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
     }
 
     public void downloadFile(Photos photoItem, String operation) {
+        Log.d(TAG, "downloadFile: photoItem: "+photoItem.getId());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String QUALITY;
         String filePath = Environment.getExternalStorageDirectory() + "/Wallpaper_Zone/";
@@ -91,15 +95,18 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
                     url = photoItem.getUrls().getFull();
                     fileName = photoItem.getId() + StringsUtil.SEPARATOR +"full" + ".jpg";
                     break;
-                case "regular":
-                    url = photoItem.getUrls().getRegular();
-                    fileName = photoItem.getId() + StringsUtil.SEPARATOR +"regular" + ".jpg";
-                    break;
                 case "small":
                     url = photoItem.getUrls().getSmall();
                     fileName = photoItem.getId()+ StringsUtil.SEPARATOR  + "small" + ".jpg";
                     break;
+                case "regular":
+                    url = photoItem.getUrls().getRegular();
+                    fileName = photoItem.getId() + StringsUtil.SEPARATOR +"regular" + ".jpg";
+                    break;
             }
+        }else {
+            url = photoItem.getUrls().getRegular();
+            fileName = photoItem.getId() + StringsUtil.SEPARATOR +"regular" + ".jpg";
         }
 
 
@@ -190,12 +197,14 @@ public class PhotoViewPresenter implements UserPhotosMVPInterface.presenter {
     }
 
     private void scanGallery(String filePath) {
-        MediaScannerConnection.scanFile(mContext,
-                new String[]{filePath}, null,
+        MediaScannerConnection.scanFile(
+                ((Activity)mContext).getApplicationContext(),
+                new String[]{filePath},
+                null,
                 new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
                     public void onScanCompleted(String path, Uri uri) {
-                        Log.d(TAG, "onScanCompleted: " + path + ", Uri: " + uri.toString());
+                        Log.d(TAG, "onScanCompleted: " + path);
                         ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

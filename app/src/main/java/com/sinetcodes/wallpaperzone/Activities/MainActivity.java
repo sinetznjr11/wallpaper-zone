@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
         mFragmentManager.beginTransaction().add(R.id.main_frame, mProfileFragment, "4").hide(mProfileFragment).commit();
         mFragmentManager.beginTransaction().add(R.id.main_frame, mFavouritesFragment, "3").hide(mFavouritesFragment).commit();
         mFragmentManager.beginTransaction().add(R.id.main_frame, mSearchFragment, "2").hide(mSearchFragment).commit();

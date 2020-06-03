@@ -178,6 +178,7 @@ public class ListActivity extends AppCompatActivity
                 intent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, StringsUtil.COLLECTION);
                 intent.putExtra("collection_id", collection.getId());
                 intent.putExtra("collection_name", collection.getTitle());
+                intent.putExtra("collection_user", collection.getUser().getName());
                 intent.putExtra("collection_image", collection.getCoverPhoto().getUrls().getSmall());
                 break;
 

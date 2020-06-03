@@ -204,9 +204,15 @@ public class SearchFragment extends Fragment
                 //endless scroll
                 isLoadingMore = false;
                 adapter.addPopularContent((List<Object>) (List<?>) photos);
+                adapter.notifyDataSetChanged();
             }
             count++;
         }
+
+    }
+
+    @Override
+    public void setTotalResults(int total) {
 
     }
 
@@ -316,14 +322,13 @@ public class SearchFragment extends Fragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        mSearchView.setQuery("",false);
+        hideSearchLayout();
         startSearchActivity(query);
         return false;
     }
 
     private void startSearchActivity(String query) {
-
-        new FirebaseEventManager(getContext()).searchQueryEvent(query);
-
         Intent intent = new Intent(getContext(), ResultActivity.class);
         intent.putExtra(StringsUtil.SEARCH_QUERY, query);
         intent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, this.getClass().getSimpleName());

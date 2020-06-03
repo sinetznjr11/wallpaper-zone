@@ -205,6 +205,7 @@ public class HomeFragment
                     Log.d(TAG, "setContent: " + popularPage + " load");
                     isLoadingMore = false;
                     adapter.addPopularContent(items);
+                    adapter.notifyDataSetChanged();
                 }
                 popularPage++;
 
@@ -313,6 +314,7 @@ public class HomeFragment
                 collectionIntent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, StringsUtil.COLLECTION);
                 collectionIntent.putExtra("collection_id", collectionId);
                 collectionIntent.putExtra("collection_name", ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getTitle());
+                collectionIntent.putExtra("collection_user", ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getUser().getName());
                 collectionIntent.putExtra("collection_image", ((Collection) exploreItems.get(parentPosition).getItems().get(childPosition)).getCoverPhoto().getUrls().getSmall());
                 startActivity(collectionIntent);
                 break;

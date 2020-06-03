@@ -1,6 +1,7 @@
 package com.sinetcodes.wallpaperzone.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -45,6 +46,7 @@ public class ResultActivity extends AppCompatActivity
         implements
         SearchMVPInterface.view,
         ObservableScrollViewCallbacks,
+        SearchView.OnQueryTextListener,
         HomeHorizontalAdapter.OnChildItemClickedListener {
 
     HomeHorizontalAdapter mAdapter;
@@ -71,6 +73,10 @@ public class ResultActivity extends AppCompatActivity
     FloatingActionButton scrollToTopFab;
     @BindView(R.id.empty_layout)
     View emptyLayout;
+    @BindView(R.id.search_layout)
+    View searchLayout;
+    @BindView(R.id.search_view)
+    SearchView mSearchView;
 
 
     String query = "";
@@ -91,6 +97,9 @@ public class ResultActivity extends AppCompatActivity
         setContentView(R.layout.activity_result);
         ButterKnife.bind(this);
         setActionBar();
+
+        handleSearchLayoutVisibility(false);
+        mSearchView.setOnQueryTextListener(this);
 
         ViewHelper.setScaleX(scrollToTopFab, 0);
         ViewHelper.setScaleY(scrollToTopFab, 0);
@@ -132,12 +141,45 @@ public class ResultActivity extends AppCompatActivity
             collectionId = getIntent().getIntExtra("collection_id", 0);
             String collectionImage = getIntent().getStringExtra("collection_image");
             String collectionName = getIntent().getStringExtra("collection_name");
+            String collectionUser = getIntent().getStringExtra("collection_user");
             Log.d(TAG, collectionName + " " + collectionId + " image url: " + collectionImage);
             headerText.setText(collectionName);
+            overLineText.setText(collectionUser);
             Picasso.get()
                     .load(collectionImage)
                     .into(headerImage);
             mPresenter.getContent("", collectionId, page, StringsUtil.COLLECTION);
+        }
+    }
+
+    @BindView(R.id.fab_search)
+    FloatingActionButton fabSearch;
+
+    @OnClick(R.id.fab_search)
+    void onFabSearchClicked() {
+        handleSearchLayoutVisibility(true);
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setFocusable(true);
+        mSearchView.setIconified(false);
+        mSearchView.requestFocus();
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                handleSearchLayoutVisibility(false);
+                return false;
+            }
+        });
+    }
+
+    private void handleSearchLayoutVisibility(boolean isVisible) {
+        if (isVisible) {
+            searchLayout.setVisibility(View.VISIBLE);
+            fabSearch.setVisibility(View.GONE);
+            scrollToTopFab.setVisibility(View.GONE);
+        } else {
+            searchLayout.setVisibility(View.GONE);
+            fabSearch.setVisibility(View.VISIBLE);
+            scrollToTopFab.setVisibility(View.VISIBLE);
         }
     }
 
@@ -160,9 +202,15 @@ public class ResultActivity extends AppCompatActivity
         } else {
             isLoadingMore = false;
             mAdapter.addPopularContent((List<Object>) (List<?>) photos);
+            mAdapter.notifyDataSetChanged();
         }
 
         page++;
+    }
+
+    @Override
+    public void setTotalResults(int total) {
+        overLineText.setText(total + " results");
     }
 
     @Override
@@ -212,7 +260,6 @@ public class ResultActivity extends AppCompatActivity
 
         ViewHelper.setTranslationY(topLayout, scrollY / 2);
 
-
     }
 
     @Override
@@ -246,7 +293,38 @@ public class ResultActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        onBackPressed();
+        super.onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mSearchView.getVisibility() == View.VISIBLE){
+            Log.d(TAG, "onBackPressed: visible");
+            handleSearchLayoutVisibility(false);
+        }
+        else{
+            Log.d(TAG, "onBackPressed: super onbackpressed");
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        page = 1;
+        mSearchView.setQuery("",false);
+        headerText.setText(query);
+        handleSearchLayoutVisibility(false);
+        mPhotos.removeAll(mPhotos);
+        mAdapter.removeAll();
+        mAdapter.notifyDataSetChanged();
+        mPresenter.getContent(query, -1, page, StringsUtil.SEARCH);
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

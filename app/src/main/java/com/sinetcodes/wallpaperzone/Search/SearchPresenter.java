@@ -1,6 +1,7 @@
 package com.sinetcodes.wallpaperzone.Search;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -13,23 +14,28 @@ public class SearchPresenter implements SearchMVPInterface.presenter{
     private SearchMVPInterface.view view;
     private SearchMVPInterface.model model;
     Context context;
+    private static final String TAG = "SearchPresenter";
 
     public SearchPresenter(SearchMVPInterface.view homeView, Context context) {
         this.view = homeView;
         this.context = context;
         this.model = new SearchModel(this,context);
-
-
     }
 
     @Override
     public void getContent(String query,int collectionId, int page,String type) {
+        Log.d(TAG, "getContent: "+type);
       if(view!=null){
           view.showProgress();
           if(type.equalsIgnoreCase(StringsUtil.RANDOM)) model.askRandomPhotos(query,page);
           else if(type.equalsIgnoreCase(StringsUtil.SEARCH)) model.askSearchResults(query, page);
           else if(type.equalsIgnoreCase(StringsUtil.COLLECTION)) model.askCollectionPhotos(collectionId,page);
       }
+    }
+
+    @Override
+    public void takeTotalResults(int total) {
+        view.setTotalResults(total);
     }
 
     @Override

@@ -165,7 +165,8 @@ PhotoViewActivity
                         Intent i = new Intent(Intent.ACTION_SEND);
                         new FirebaseEventManager(PhotoViewActivity.this).shareEvent(mPhotoList.get(getCurrentPosition()).getUrls().getSmall(), AppUtil.getDeviceId(PhotoViewActivity.this));
                         i.setType("*/*");
-                        i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing wallpaper from Wallpaper Zone app. You can download the app here, https://play.google.com/store/apps/details?id=" + getPackageName());
+                        i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing wallpaper from Wallpaper Zone app. \n " +
+                                "You can download the app here, "+StringsUtil.PLAYSTORE_LINK +StringsUtil.PACKAGE_NAME);
                         i.putExtra(Intent.EXTRA_STREAM, AppUtil.getLocalBitmapUri(resource, PhotoViewActivity.this));
                         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(Intent.createChooser(i, "Share Image"));

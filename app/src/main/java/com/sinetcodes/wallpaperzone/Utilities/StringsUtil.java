@@ -2,6 +2,9 @@ package com.sinetcodes.wallpaperzone.Utilities;
 
 public class StringsUtil {
 
+    public static final String PACKAGE_NAME="com.sinetcodes.wmaze";
+    public static final String PLAYSTORE_LINK="https://play.google.com/store/apps/details?id=";
+
     public static final String RANDOM="random";
     public static final String SEARCH="search";
     public static final String COLLECTION="Collection";
