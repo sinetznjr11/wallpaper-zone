@@ -16,11 +16,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sinetcodes.wallpaperzone.Common.ApiClient;
-import com.sinetcodes.wallpaperzone.Common.CommonApiInterface;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
-import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
+import com.sinetcodes.wallpaperzone.data.network.ApiInterface;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.utils.SetUpRetrofit;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class PhotoViewModel implements UserPhotosMVPInterface.model{
     @Override
     public void askContent(String userName) {
         ApiClient apiClient = new ApiClient(mContext);
-        CommonApiInterface apiInterface=apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface=apiClient.getOkHttpClient().create(ApiInterface.class);
 
         try {
             Call<List<Photos>> listCall=apiInterface.getUserPhotos(userName, SetUpRetrofit.getUnsplashClientId(),1,20,"popular","portrait");

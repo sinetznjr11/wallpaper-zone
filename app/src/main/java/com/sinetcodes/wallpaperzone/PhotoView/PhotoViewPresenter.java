@@ -21,10 +21,10 @@ import com.downloader.OnProgressListener;
 import com.downloader.OnStartOrResumeListener;
 import com.downloader.PRDownloader;
 import com.downloader.Progress;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
-import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 import java.io.File;
 import java.util.List;

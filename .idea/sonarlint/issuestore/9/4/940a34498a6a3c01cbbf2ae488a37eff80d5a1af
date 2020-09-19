@@ -1,20 +1,6 @@
 
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™®ð˜
-}
-java:S14887"bImmediately return this expression instead of assigning it to the temporary variable "viewHolder".(ê…ûÂþÿÿÿÿ
-R
-java:S1128"<Remove this unused import 'com.bumptech.glide.GlideBuilder'.(÷Àõ–
-O
-java:S1128"9Remove this unused import 'com.squareup.picasso.Picasso'.(£œ¿×
-P
-java:S1128":Remove this unused import 'com.squareup.picasso.Callback'.(“¢àò
-7	java:S131=""Add a default case to this switch.(ÜŸ•
 C
-java:S2114q"(Remove or correct this "removeAll" call.(¾–ôšùÿÿÿÿ
-G
-java:S1135~"2Complete the task associated to this TODO comment.(èÚ=
-j	java:S116›"TRename this field "item_view" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•ñÄº
-8	java:S131²""Add a default case to this switch.(ÜŸ•
+java:S2114@"(Remove or correct this "removeAll" call.(¾–ôšùÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™®ð˜
 =
-java:S1068)"'Remove this unused "TAG" private field.(ŸŽ²¶
-W	java:S125ž"<This block of commented-out lines of code should be removed.(áÛÙœøÿÿÿÿ
+java:S1068"'Remove this unused "TAG" private field.(ŸŽ²¶

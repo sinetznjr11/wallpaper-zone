@@ -6,17 +6,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.sinetcodes.wallpaperzone.Adapters.CategoriesAdapter;
@@ -24,11 +21,11 @@ import com.sinetcodes.wallpaperzone.Adapters.CollectionListAdapter;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
 import com.sinetcodes.wallpaperzone.Home.HomeMVPInterface;
 import com.sinetcodes.wallpaperzone.Home.HomePresenter;
-import com.sinetcodes.wallpaperzone.POJO.CategoryItem;
-import com.sinetcodes.wallpaperzone.POJO.Collection;
+import com.sinetcodes.wallpaperzone.pojo.CategoryItem;
+import com.sinetcodes.wallpaperzone.pojo.Collection;
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.EndlessRecyclerViewScrollListener;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.utils.EndlessRecyclerViewScrollListener;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 import java.util.List;
 

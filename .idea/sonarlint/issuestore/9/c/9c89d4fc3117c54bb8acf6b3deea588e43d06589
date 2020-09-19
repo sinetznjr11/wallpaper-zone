@@ -1,0 +1,10 @@
+
+v	java:S116"[Rename this field "photographer_url" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾øç,8®ÒúÕ§.
+o	java:S100\"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î…„Šúÿÿÿÿ8õ¢Ùñ¨.
+p	java:S116%"TRename this field "SrcObject" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Â”õ8®ÒúÕ§.
+j	java:S100T"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğÉ®8õ¢Ùñ¨.
+m	java:S117T"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğÉ®8õ¢Ùñ¨.
+i	java:S100P"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ò®I8õ¢Ùñ¨.
+o	java:S100X"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ßÆ¸Šüÿÿÿÿ8õ¢Ùñ¨.
+r	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î…„Šúÿÿÿÿ8õ¢Ùñ¨.
+{	java:S116!"ZRename this field "photographer_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ¶ÎÑüÿÿÿÿ8®ÒúÕ§.

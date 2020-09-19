@@ -5,19 +5,16 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.sinetcodes.wallpaperzone.Common.ApiClient;
-import com.sinetcodes.wallpaperzone.Common.CommonApiInterface;
-import com.sinetcodes.wallpaperzone.POJO.PhotoFile;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
-import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.data.network.ApiInterface;
+import com.sinetcodes.wallpaperzone.pojo.PhotoFile;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
+import com.sinetcodes.wallpaperzone.utils.SetUpRetrofit;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +57,7 @@ public class ProfileModel implements ProfileImpl.model {
     @Override
     public void askPhotoFromId(String photoId){
         ApiClient apiClient = new ApiClient(mContext);
-        CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface = apiClient.getOkHttpClient().create(ApiInterface.class);
         try {
             Call<Photos> call=apiInterface.getPhoto(photoId,SetUpRetrofit.getUnsplashClientId());
             call.enqueue(new Callback<Photos>() {

@@ -28,12 +28,12 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.sinetcodes.wallpaperzone.Activities.MainActivity;
 import com.sinetcodes.wallpaperzone.Dialogs.DownloadSuccessDialog;
 import com.sinetcodes.wallpaperzone.Dialogs.WallpaperSetDialog;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
-import com.sinetcodes.wallpaperzone.Utilities.Favorites;
-import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.Favorites;
+import com.sinetcodes.wallpaperzone.utils.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.sinetcodes.wallpaperzone.POJO;
+package com.sinetcodes.wallpaperzone.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

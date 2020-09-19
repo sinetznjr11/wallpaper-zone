@@ -3,10 +3,8 @@ package com.sinetcodes.wallpaperzone.Search;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.sinetcodes.wallpaperzone.POJO.Photos;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 import java.util.List;
 

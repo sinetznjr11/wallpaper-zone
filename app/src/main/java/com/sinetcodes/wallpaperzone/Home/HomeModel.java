@@ -11,13 +11,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sinetcodes.wallpaperzone.Common.ApiClient;
-import com.sinetcodes.wallpaperzone.Common.CommonApiInterface;
+import com.sinetcodes.wallpaperzone.data.network.ApiInterface;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
-import com.sinetcodes.wallpaperzone.POJO.CategoryItem;
-import com.sinetcodes.wallpaperzone.POJO.Collection;
-import com.sinetcodes.wallpaperzone.POJO.ExploreItem;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
-import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
+import com.sinetcodes.wallpaperzone.pojo.CategoryItem;
+import com.sinetcodes.wallpaperzone.pojo.Collection;
+import com.sinetcodes.wallpaperzone.pojo.HomeItem;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
+import com.sinetcodes.wallpaperzone.utils.SetUpRetrofit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +32,7 @@ public class HomeModel implements HomeMVPInterface.model {
     Context context;
     HomeMVPInterface.presenter presenter;
 
-    List<ExploreItem> exploreItems = new ArrayList<>();
+    List<HomeItem> mHomeItems = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
 
     public HomeModel(Context context, HomePresenter homePresenter) {
@@ -68,7 +68,7 @@ public class HomeModel implements HomeMVPInterface.model {
     public void askCollections(int page) {
         List<Object> collectionItems = new ArrayList<>();
         ApiClient apiClient = new ApiClient(context);
-        CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface = apiClient.getOkHttpClient().create(ApiInterface.class);
         try {
             Call<List<Collection>> call = apiInterface.getCollection(SetUpRetrofit.getUnsplashClientId(), page, 20);
             call.enqueue(new Callback<List<Collection>>() {
@@ -100,7 +100,7 @@ public class HomeModel implements HomeMVPInterface.model {
     public void askPopular(int page) {
         Log.d(TAG, "askPopular: "+page);
         ApiClient apiClient = new ApiClient(context);
-        CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface = apiClient.getOkHttpClient().create(ApiInterface.class);
         Call<List<Photos>> call=apiInterface.getPhotos(SetUpRetrofit.getUnsplashClientId(),page,30);
         call.enqueue(new Callback<List<Photos>>() {
             @Override

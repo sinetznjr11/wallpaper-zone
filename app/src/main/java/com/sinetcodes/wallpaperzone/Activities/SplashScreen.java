@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
 
 public class SplashScreen extends AppCompatActivity {
     private static final String TAG = "SplashScreen";

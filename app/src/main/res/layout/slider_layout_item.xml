@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/iv_auto_image_slider"
+<layout>
+    <data>
+        <variable
+            name="wallpaper"
+            type="com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper" />
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/fl_shadow_container"
-        android:background="@drawable/bg_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="bottom">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@{wallpaper.urlThumb}"
+            android:scaleType="centerCrop" />
+
+        <FrameLayout
+            android:id="@+id/fl_shadow_container"
+            android:background="@drawable/bg_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom">
+            <TextView
+                android:id="@+id/featured_user"
+                style="@style/TextAppearance.MdcTypographyStyles.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="24dp"
+                android:text="@{`@`+wallpaper.userName}"
+                android:textColor="@android:color/white" />
+        </FrameLayout>
 
     </FrameLayout>
-
-</FrameLayout>
+</layout>

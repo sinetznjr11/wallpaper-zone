@@ -1,16 +1,9 @@
 package com.sinetcodes.wallpaperzone.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,19 +20,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sinetcodes.wallpaperzone.Ads.AdsUtil;
 import com.sinetcodes.wallpaperzone.Ads.MyInterstitialAd;
-import com.sinetcodes.wallpaperzone.Home.HomeFragment;
+import com.sinetcodes.wallpaperzone.ui.home.HomeFragment;
 import com.sinetcodes.wallpaperzone.Favourites.FavouritesFragment;
 import com.sinetcodes.wallpaperzone.Profile.ProfileFragment;
 import com.sinetcodes.wallpaperzone.Search.SearchFragment;
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
-import com.sinetcodes.wallpaperzone.Utilities.MyUser;
-import com.sinetcodes.wallpaperzone.Utilities.NetworkConnectivity;
-import com.squareup.okhttp.internal.Network;
+import com.sinetcodes.wallpaperzone.utils.MyUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
         implements
@@ -163,11 +152,11 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 if (active.getTag().equals("1")) {
-                    ((HomeFragment) active).scrollToTop();
+                    //((HomeFragment) active).scrollToTop();
                 }
                 mFragmentManager.beginTransaction().hide(active).show(mHomeFragment).commit();
                 active = mHomeFragment;
-                ((HomeFragment)active).handleNetworkErrLayout();
+                //((HomeFragment)active).handleNetworkErrLayout();
                 return true;
             case R.id.navigation_explore:
                 if (active.getTag().equals("2")) {

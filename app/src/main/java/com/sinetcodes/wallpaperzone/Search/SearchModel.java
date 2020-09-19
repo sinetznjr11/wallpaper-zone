@@ -4,11 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sinetcodes.wallpaperzone.Common.ApiClient;
-import com.sinetcodes.wallpaperzone.Common.CommonApiInterface;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
-import com.sinetcodes.wallpaperzone.POJO.Results;
-import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
+import com.sinetcodes.wallpaperzone.data.network.ApiInterface;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
+import com.sinetcodes.wallpaperzone.pojo.Results;
+import com.sinetcodes.wallpaperzone.utils.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.utils.SetUpRetrofit;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class SearchModel implements SearchMVPInterface.model {
         //perform API Call
 
         ApiClient apiClient = new ApiClient(context);
-        CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface = apiClient.getOkHttpClient().create(ApiInterface.class);
         Call<List<Photos>> call = apiInterface.getRandomPhoto(
                 SetUpRetrofit.getUnsplashClientId(),
                 query,
@@ -68,7 +68,7 @@ public class SearchModel implements SearchMVPInterface.model {
 
         new FirebaseEventManager(context).searchQueryEvent(query);
         ApiClient apiClient = new ApiClient(context);
-        CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface = apiClient.getOkHttpClient().create(ApiInterface.class);
         Call<Results> call = apiInterface.getSearchResults(
                 SetUpRetrofit.getUnsplashClientId(),
                 query,
@@ -103,7 +103,7 @@ public class SearchModel implements SearchMVPInterface.model {
     @Override
     public void askCollectionPhotos(int collectionId,int page) {
         ApiClient apiClient = new ApiClient(context);
-        CommonApiInterface apiInterface = apiClient.getOkHttpClient().create(CommonApiInterface.class);
+        ApiInterface apiInterface = apiClient.getOkHttpClient().create(ApiInterface.class);
         Call<List<Photos>> call = apiInterface.getCollectionPhotos(
                 collectionId,
                 SetUpRetrofit.getUnsplashClientId(),

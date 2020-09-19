@@ -1,110 +1,96 @@
 package com.sinetcodes.wallpaperzone.Home;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.google.android.material.button.MaterialButton;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
-import com.sinetcodes.wallpaperzone.POJO.ExploreItem;
+import com.sinetcodes.wallpaperzone.pojo.HomeItem;
 import com.sinetcodes.wallpaperzone.R;
+import com.sinetcodes.wallpaperzone.databinding.SingleHomeVerticalItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ExploreVH> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeVH> {
     Context context;
-    List<ExploreItem> exploreItems = new ArrayList<>();
-    private static final String TAG = "ExploreAdapter";
+    List<HomeItem> mHomeItems = new ArrayList<>();
+    private static final String TAG = "HomeAdapter";
     OnParentItemClickListener mListener;
     HomeHorizontalAdapter.OnChildItemClickedListener mChildItemClickedListener;
 
-    HomeMVPInterface.view mView;
 
-    boolean isScrolling=false;
+    boolean isScrolling = false;
+    RecyclerView homeHorizontalRecyclerView;
     HomeHorizontalAdapter popularAdapter;
 
 
-    public HomeAdapter(Context context, HomeMVPInterface.view view, List<ExploreItem> exploreItems, OnParentItemClickListener onParentItemClickListener, HomeHorizontalAdapter.OnChildItemClickedListener onChildItemClickedListener) {
+    public HomeAdapter(Context context, List<HomeItem> homeItems, OnParentItemClickListener onParentItemClickListener, HomeHorizontalAdapter.OnChildItemClickedListener onChildItemClickedListener) {
         this.context = context;
-        this.exploreItems = exploreItems;
+        this.mHomeItems = homeItems;
         this.mListener = onParentItemClickListener;
         this.mChildItemClickedListener = onChildItemClickedListener;
-        this.mView = view;
     }
 
     @Override
-    public ExploreVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_explore_vertical_item, parent, false);
-        return new ExploreVH(v, mListener);
+    public HomeVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        SingleHomeVerticalItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.single_home_vertical_item, parent, false);
+        homeHorizontalRecyclerView = binding.homeHorizontalRv;
+        return new HomeVH(binding, mListener);
     }
 
     @Override
-    public void onBindViewHolder(ExploreVH holder, int position) {
+    public void onBindViewHolder(HomeVH holder, int position) {
 
-        String title = exploreItems.get(position).getTitle();
+        HomeItem homeItem = mHomeItems.get(position);
+        holder.mBinding.setData(homeItem);
+        if (homeItem.getTitle().equalsIgnoreCase(ContentType.CATEGORY)) {
+            holder.mBinding.headerText.setVisibility(View.GONE);
+            holder.mBinding.btnShowAll.setVisibility(View.GONE);
+        }
+        setHorizontalRecyclerView(position, homeItem.getTitle(), homeItem.getItems());
 
-        holder.headerText.setText(title);
 
-        holder.horizontalRV.setNestedScrollingEnabled(false);
+    }
 
-        if (title.equalsIgnoreCase(ContentType.POPULAR)) {
-            holder.btnShowAll.setVisibility(View.INVISIBLE);
+    private void setHorizontalRecyclerView(int position, String title, List items) {
+        homeHorizontalRecyclerView.setNestedScrollingEnabled(false);
+
+/*            holder.btnShowAll.setVisibility(View.INVISIBLE);
             StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             holder.horizontalRV.setLayoutManager(layoutManager);
-            popularAdapter = new HomeHorizontalAdapter(context, mChildItemClickedListener, position, exploreItems.get(position).getItems(), title);
-            holder.horizontalRV.setAdapter(popularAdapter);
+            popularAdapter = new HomeHorizontalAdapter(context, mChildItemClickedListener, position, mHomeItems.get(position).getItems(), title);
+            holder.horizontalRV.setAdapter(popularAdapter);*/
 
-        } else {
-
-            holder.horizontalRV.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-            HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(context, mChildItemClickedListener, position, exploreItems.get(position).getItems(), title);
-            holder.horizontalRV.setAdapter(adapter);
-        }
-
+        homeHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+        HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(context, mChildItemClickedListener, position, items, title);
+        homeHorizontalRecyclerView.setAdapter(adapter);
 
     }
 
     @Override
     public int getItemCount() {
-        return exploreItems.size();
-    }
-
-    public void addPopularContent(List<Object> photosList){
-        popularAdapter.addPopularContent(photosList);
-    }
-
-    public void removeItems(){
-        exploreItems.removeAll(exploreItems);
-        notifyDataSetChanged();
+        Log.e(TAG, "getItemCount: " + mHomeItems.size());
+        return mHomeItems.size();
     }
 
 
-    public static class ExploreVH extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.header_text)
-        TextView headerText;
-        @BindView(R.id.explore_horizontal_rv)
-        RecyclerView horizontalRV;
-        @BindView(R.id.btn_show_all)
-        MaterialButton btnShowAll;
+    public static class HomeVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         OnParentItemClickListener mOnParentItemClickListener;
+        SingleHomeVerticalItemBinding mBinding;
 
-        public ExploreVH(@NonNull View itemView, OnParentItemClickListener onParentItemClickListener) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public HomeVH(SingleHomeVerticalItemBinding binding, OnParentItemClickListener onParentItemClickListener) {
+            super(binding.getRoot());
+            mBinding = binding;
             this.mOnParentItemClickListener = onParentItemClickListener;
             itemView.setOnClickListener(this);
-            btnShowAll.setOnClickListener(this);
+            mBinding.btnShowAll.setOnClickListener(this);
         }
 
         @Override
@@ -114,6 +100,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ExploreVH> {
     }
 
     public interface OnParentItemClickListener {
-         void onParentItemClicked(View view, int position);
+        void onParentItemClicked(View view, int position);
     }
 }

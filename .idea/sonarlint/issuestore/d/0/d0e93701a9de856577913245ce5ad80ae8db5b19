@@ -1,0 +1,22 @@
+
+|
+java:S1104<"gMake photosInterstitialAdCounter a static final constant or non-public and provide accessors if needed.(ÏªÒ}
+?
+java:S1185’"(Remove this method to simply inherit it.(¯‹´á
+V
+java:S1444<"AMake this "public static photosInterstitialAdCounter" field final(ÏªÒ}
+Q	java:S125E"<This block of commented-out lines of code should be removed.(Ü¼™
+V	java:S110!"<This class has 9 parents which is greater than 5 authorized.(ù ®Íúÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(äÜÁşÿÿÿÿ
+>
+java:S1604w"(Make this anonymous inner class a lambda(„ÑñŒ
+w
+java:S14509"aRemove the "mFirebaseAnalytics" field and declare it as a local variable in the relevant methods.( ı¹
+=	java:S131˜""Add a default case to this switch.(øå´¡ÿÿÿÿÿ
+L
+java:S10689"6Remove this unused "mFirebaseAnalytics" private field.( ı¹
+C	java:S108b")Either remove or fill this block of code.(Àë€Øûÿÿÿÿ
+R
+java:S1068%"7Remove this unused "BACK_STACK_ROOT_TAG" private field.(Î¿ŠÀüÿÿÿÿ
+Y	java:S125›"<This block of commented-out lines of code should be removed.(‹È‘8úƒÀ¸Á.
+Y	java:S125Ÿ"<This block of commented-out lines of code should be removed.(é‡È‹8úƒÀ¸Á.

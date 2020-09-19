@@ -235,6 +235,8 @@
         android:layout_alignParentTop="true"
         android:visibility="gone" />
 
-    <include layout="@layout/layout_no_connectivity"/>
+    <include layout="@layout/layout_no_connectivity"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

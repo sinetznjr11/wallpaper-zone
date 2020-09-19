@@ -1,9 +1,6 @@
 package com.sinetcodes.wallpaperzone.Common;
 
 import android.content.Context;
-import android.util.Log;
-
-import com.sinetcodes.wallpaperzone.Utilities.SetUpRetrofit;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiClient {
-    //public static final String BASE_URL="https://api.pexels.com/v1";
+    public static final String BASE_URL="https://api.pexels.com/v1/";
     private OkHttpClient okHttpClient;
     private static Retrofit retrofit = null;
     private static final String TAG = "ApiClient";
@@ -30,7 +27,7 @@ public class ApiClient {
         if (retrofit == null) {
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(SetUpRetrofit.getBaseUrl())
+                    .baseUrl(BASE_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

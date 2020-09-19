@@ -4,20 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.card.MaterialCardView;
-import com.sinetcodes.wallpaperzone.POJO.CategoryItem;
+import com.sinetcodes.wallpaperzone.pojo.CategoryItem;
 import com.sinetcodes.wallpaperzone.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoriesAdapter extends FirebaseRecyclerAdapter<CategoryItem,CategoriesAdapter.CategoryViewHolder> {
@@ -33,11 +28,11 @@ public class CategoriesAdapter extends FirebaseRecyclerAdapter<CategoryItem,Cate
     @Override
     protected void onBindViewHolder(@NonNull CategoryViewHolder holder, int i, @NonNull CategoryItem categoryItem) {
 
-        holder.titleText.setText(categoryItem.getName());
+    /*    holder.titleText.setText(categoryItem.getName());
         Glide.with(mContext)
                 .load(categoryItem.getImage_url())
                 .thumbnail(0.1f)
-                .into(holder.coverImage);
+                .into(holder.coverImage);*/
 
     }
 
@@ -45,19 +40,19 @@ public class CategoriesAdapter extends FirebaseRecyclerAdapter<CategoryItem,Cate
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-       View view = inflater.inflate(R.layout.single_category_list_item, parent, false);
+       View view = inflater.inflate(R.layout.single_category_item, parent, false);
        CategoryViewHolder viewHolder=new CategoryViewHolder(view,mListener);
        return viewHolder;
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.category_card)
+      /*  @BindView(R.id.category_card)
         MaterialCardView mCardView;
         @BindView(R.id.cover_image)
         ImageView coverImage;
         @BindView(R.id.title_text)
-        TextView titleText;
+        TextView titleText;*/
 
         OnCategoryClickListener mOnCategoryClickListener;
 
@@ -65,7 +60,7 @@ public class CategoriesAdapter extends FirebaseRecyclerAdapter<CategoryItem,Cate
             super(itemView);
             ButterKnife.bind(this,itemView);
             mOnCategoryClickListener=onCategoryClickListener;
-            mCardView.setOnClickListener(this);
+            //mCardView.setOnClickListener(this);
         }
 
         @Override

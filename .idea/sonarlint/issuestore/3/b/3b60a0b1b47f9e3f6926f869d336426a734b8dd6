@@ -1,10 +1,8 @@
 
 o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ž³ì†
-H
-java:S1128"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ
-I
-java:S1172".Remove this unused method parameter "context".(Ó¿‘¤ÿÿÿÿÿ
-Q
-java:S2696"6Make the enclosing method "static" or remove this set.(µûëŠüÿÿÿÿ
 <
-java:S1068"'Remove this unused "TAG" private field.(ºÁÿ7
+java:S1068"'Remove this unused "TAG" private field.(ºÁÿ7
+I
+java:S1172".Remove this unused method parameter "context".(Ó¿‘¤ÿÿÿÿÿ
+Q
+java:S2696"6Make the enclosing method "static" or remove this set.(µûëŠüÿÿÿÿ

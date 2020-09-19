@@ -1,6 +1,6 @@
 package com.sinetcodes.wallpaperzone.PhotoView;
 
-import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
 
 import java.util.List;
 
