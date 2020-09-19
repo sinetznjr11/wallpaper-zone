@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -22,12 +21,11 @@ import com.sinetcodes.wallpaperzone.Activities.ResultActivity;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
 import com.sinetcodes.wallpaperzone.Home.HomeHorizontalAdapter;
 import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
-import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.NetworkConnectivity;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.NetworkConnectivity;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 
 import java.util.List;
@@ -204,9 +202,15 @@ public class SearchFragment extends Fragment
                 //endless scroll
                 isLoadingMore = false;
                 adapter.addPopularContent((List<Object>) (List<?>) photos);
+                adapter.notifyDataSetChanged();
             }
             count++;
         }
+
+    }
+
+    @Override
+    public void setTotalResults(int total) {
 
     }
 
@@ -316,14 +320,13 @@ public class SearchFragment extends Fragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        mSearchView.setQuery("",false);
+        hideSearchLayout();
         startSearchActivity(query);
         return false;
     }
 
     private void startSearchActivity(String query) {
-
-        new FirebaseEventManager(getContext()).searchQueryEvent(query);
-
         Intent intent = new Intent(getContext(), ResultActivity.class);
         intent.putExtra(StringsUtil.SEARCH_QUERY, query);
         intent.putExtra(StringsUtil.SEARCH_ACTIVITY_REQUEST, this.getClass().getSimpleName());

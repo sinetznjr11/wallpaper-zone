@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

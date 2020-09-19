@@ -1,0 +1,28 @@
+
+_
+java:S1192±"HDefine a constant instead of duplicating this literal "image/*" 4 times.(·íŸµ
+f	java:S117O"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ó·
+>
+java:S1604y"(Make this anonymous inner class a lambda(Óğø
+˜
+java:S1186‡"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ßû¢½
+^
+java:S1192f"HDefine a constant instead of duplicating this literal "regular" 3 times.(¶ç›µ
+<	java:S131]""Add a default case to this switch.(‘®š¢şÿÿÿÿ
+˜
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(í±Ê
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÛË¿—ùÿÿÿÿ
+?
+java:S1604Ğ"(Make this anonymous inner class a lambda(Ë›Æµ
+v
+java:S1104%"[Make currentPosition a static final constant or non-public and provide accessors if needed.(¡‚á±øÿÿÿÿ
+>
+java:S1604"(Make this anonymous inner class a lambda(êÁå®
+D
+java:S10669"/Merge this if statement with the enclosing one.(»¬éT
+D
+java:S1604Ì"(Make this anonymous inner class a lambda(ªŸìÿÿÿÿÿ
+S
+java:S11559">Use isEmpty() to check whether the collection is empty or not.(»¬éT
+D
+java:S1604…"(Make this anonymous inner class a lambda(æè–ùÿÿÿÿ

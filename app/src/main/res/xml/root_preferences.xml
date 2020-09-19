@@ -63,7 +63,7 @@
             app:summary="@string/rate_us_description"
             app:title="Rate" >
             <intent android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/details?id=com.sinetcodes.wallpaperzone"/>
+                android:data="https://play.google.com/store/apps/details?id=com.sinetcodes.wmaze"/>
         </Preference>
         <Preference
             app:key="share_app"

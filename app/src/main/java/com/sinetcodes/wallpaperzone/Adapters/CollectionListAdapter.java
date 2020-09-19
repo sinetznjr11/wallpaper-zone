@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.sinetcodes.wallpaperzone.POJO.Collection;
+import com.sinetcodes.wallpaperzone.pojo.Collection;
 import com.sinetcodes.wallpaperzone.R;
 
 import java.util.ArrayList;

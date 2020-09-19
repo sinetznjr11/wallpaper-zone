@@ -1,4 +1,4 @@
-package com.sinetcodes.wallpaperzone.POJO;
+package com.sinetcodes.wallpaperzone.pojo;
 
 public class CategoryItem {
     String name;

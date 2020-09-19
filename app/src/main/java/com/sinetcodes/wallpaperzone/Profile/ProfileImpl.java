@@ -1,12 +1,9 @@
 package com.sinetcodes.wallpaperzone.Profile;
 
-import com.sinetcodes.wallpaperzone.POJO.PhotoFile;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.pojo.PhotoFile;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
-import java.util.Map;
 
 public interface ProfileImpl {
     interface view{

@@ -2,12 +2,10 @@ package com.sinetcodes.wallpaperzone.Adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,13 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.sinetcodes.wallpaperzone.POJO.PhotoFile;
+import com.sinetcodes.wallpaperzone.pojo.PhotoFile;
 import com.sinetcodes.wallpaperzone.R;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

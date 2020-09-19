@@ -28,12 +28,12 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.sinetcodes.wallpaperzone.Activities.MainActivity;
 import com.sinetcodes.wallpaperzone.Dialogs.DownloadSuccessDialog;
 import com.sinetcodes.wallpaperzone.Dialogs.WallpaperSetDialog;
-import com.sinetcodes.wallpaperzone.POJO.Photos;
+import com.sinetcodes.wallpaperzone.pojo.Photos;
 import com.sinetcodes.wallpaperzone.R;
-import com.sinetcodes.wallpaperzone.Utilities.AppUtil;
-import com.sinetcodes.wallpaperzone.Utilities.Favorites;
-import com.sinetcodes.wallpaperzone.Utilities.FirebaseEventManager;
-import com.sinetcodes.wallpaperzone.Utilities.StringsUtil;
+import com.sinetcodes.wallpaperzone.utils.AppUtil;
+import com.sinetcodes.wallpaperzone.utils.Favorites;
+import com.sinetcodes.wallpaperzone.utils.FirebaseEventManager;
+import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 
 
 import java.util.ArrayList;
@@ -165,7 +165,8 @@ PhotoViewActivity
                         Intent i = new Intent(Intent.ACTION_SEND);
                         new FirebaseEventManager(PhotoViewActivity.this).shareEvent(mPhotoList.get(getCurrentPosition()).getUrls().getSmall(), AppUtil.getDeviceId(PhotoViewActivity.this));
                         i.setType("*/*");
-                        i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing wallpaper from Wallpaper Zone app. You can download the app here, https://play.google.com/store/apps/details?id=" + getPackageName());
+                        i.putExtra(Intent.EXTRA_TEXT, "Hey check this amazing wallpaper from Wallpaper Zone app. \n " +
+                                "You can download the app here, "+StringsUtil.PLAYSTORE_LINK +StringsUtil.PACKAGE_NAME);
                         i.putExtra(Intent.EXTRA_STREAM, AppUtil.getLocalBitmapUri(resource, PhotoViewActivity.this));
                         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(Intent.createChooser(i, "Share Image"));

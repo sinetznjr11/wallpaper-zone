@@ -18,7 +18,7 @@
 
 
     <application
-        android:name=".Utilities.ApplicationClass"
+        android:name=".utils.ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,9 +36,6 @@
             android:name=".PhotoView.PhotoViewActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.TestActivity"
-            android:exported="true" />
-        <activity
             android:name=".Activities.WebViewActivity"
             android:exported="true" />
 
@@ -53,9 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".TestActivity"
-            android:exported="true" />
         <activity android:name=".Activities.MainActivity"
             />
 
