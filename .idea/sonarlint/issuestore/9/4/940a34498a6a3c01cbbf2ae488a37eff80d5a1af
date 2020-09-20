@@ -1,6 +1,4 @@
 
-C
-java:S2114@"(Remove or correct this "removeAll" call.(¾–ôšùÿÿÿÿ
 o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™®ğ˜
-=
-java:S1068"'Remove this unused "TAG" private field.(Ÿ²¶
+J
+java:S2114B"(Remove or correct this "removeAll" call.(¾–ôšùÿÿÿÿ8´Æ¾Ê.

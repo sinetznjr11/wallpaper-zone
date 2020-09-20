@@ -67,7 +67,7 @@ class FavoritesAdapter extends FirebaseRecyclerAdapter<Photos, FavoritesAdapter.
     @NonNull
     @Override
     public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_explore_popular_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_photo_list_item, parent, false);
         return new FavoriteViewHolder(view, mListener);
     }
 

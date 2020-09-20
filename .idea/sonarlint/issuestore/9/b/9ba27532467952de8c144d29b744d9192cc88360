@@ -1,7 +1,31 @@
 
+L
+java:S3740C"/Provide the parametrized type for this generic.(Ÿ²¥Ö8¶ïƒ¿Ê.
+L
+java:S3740I"/Provide the parametrized type for this generic.(Õ†ÏÖ8¶ïƒ¿Ê.
+L
+java:S3740@"/Provide the parametrized type for this generic.( Í¥»8¶ïƒ¿Ê.
 X
-java:S1128";Remove this unused import 'com.sinetcodes.wallpaperzone.R'.(Äêâ8±ÐÏ·Á.
-m
-java:S1128"KRemove this unused import 'com.sinetcodes.wallpaperzone.utils.StringsUtil'.(Œî®ùúÿÿÿÿ8ËèÔ·Á.
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ó³Ù·Á.
+java:S1128	";Remove this unused import 'com.sinetcodes.wallpaperzone.R'.(Äêâ8±ÐÏ·Á.
+ž
+java:S1186K"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(’ˆ§¾8¶ïƒ¿Ê.
+Q
+java:S37405"/Provide the parametrized type for this generic.(Œ÷Ï¼üÿÿÿÿ8¶ïƒ¿Ê.
+L
+java:S3740A"/Provide the parametrized type for this generic.(ó†Ö8¶ïƒ¿Ê.
+ž
+java:S1186Z"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(×ÝŠÎ8¶ïƒ¿Ê.
+L
+java:S3740d"/Provide the parametrized type for this generic.(ÏïŽ¤8¶ïƒ¿Ê.
+L
+java:S3740,"/Provide the parametrized type for this generic.(ŽÝš–8¶ïƒ¿Ê.
+Q
+java:S3740>"/Provide the parametrized type for this generic.(»·Ñ¾ýÿÿÿÿ8¶ïƒ¿Ê.
+L
+java:S3740?"/Provide the parametrized type for this generic.(çÆÿ¬8¶ïƒ¿Ê.
+Z
+java:S1128"8Remove this unused import 'androidx.lifecycle.LiveData'.(ß„ÝÞþÿÿÿÿ8¶ïƒ¿Ê.
+L
+java:S3740#"/Provide the parametrized type for this generic.(Ûš§ò8¶ïƒ¿Ê.
+L
+java:S3740B"/Provide the parametrized type for this generic.(ÜÊÃå8¶ïƒ¿Ê.

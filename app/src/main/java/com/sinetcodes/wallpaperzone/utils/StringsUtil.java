@@ -26,7 +26,8 @@ public class StringsUtil {
 
     //which class is entering ResultsActivity
     public static final String SEARCH_ACTIVITY_REQUEST = "search_activity_request";
-    public static final String LIST_ACTIVITY_REQUEST = "search_activity_request";
+    public static final String LIST_ACTIVITY_REQUEST = "list_activity_request";
+    public static final String LIST_ACTIVITY_DATA = "list_activity_data";
     public static final String SEARCH_QUERY = "query";
 
     //dummy password for temporary users

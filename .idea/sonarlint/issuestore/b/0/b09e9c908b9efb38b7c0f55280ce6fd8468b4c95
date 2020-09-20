@@ -1,0 +1,11 @@
+
+B
+java:S1068)"'Remove this unused "TAG" private field.(É®¾“ÿÿÿÿÿ
+d
+java:S2259±"HA "NullPointerException" could be thrown; "collection" is nullable here.(ÎÁù‹üÿÿÿÿ
+V	java:S110$"<This class has 9 parents which is greater than 5 authorized.(Ò‹Ôòøÿÿÿÿ
+g
+java:S1301®"KReplace this "switch" statement by "if" statements to increase readability.(»”ÔÊÿÿÿÿÿ
+=	java:S131®""Add a default case to this switch.(»”ÔÊÿÿÿÿÿ
+
+java:S1186€"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(®ºÊáþÿÿÿÿ

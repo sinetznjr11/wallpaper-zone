@@ -32,7 +32,10 @@ public class WallpaperRepository extends SafeApiRequest {
     private static final String TAG = "WallpaperRepository";
 
     ApiInterface mApiInterface;
+
     MutableLiveData<List<HomeItem>> homeItemsLiveData=new MutableLiveData<>();
+
+    MutableLiveData<WallpaperList> mWallpaperListMutableLiveData=new MutableLiveData<>();
 
     public WallpaperRepository() {
         this.mApiInterface = SetupRetrofit.createService(ApiInterface.class);
@@ -99,4 +102,11 @@ public class WallpaperRepository extends SafeApiRequest {
     public MutableLiveData<List<HomeItem>> getHomeItemsLiveData() {
         return homeItemsLiveData;
     }
+
+    public MutableLiveData<WallpaperList> getWallpaperListLiveData(String url) {
+        Log.e("URL", "url: "+url );
+        return callRetrofitObservableObject(mApiInterface.getWallpaperList(url));
+    }
+
+
 }

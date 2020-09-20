@@ -10,7 +10,12 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,9 +23,11 @@ import retrofit2.Response;
 
 public class SafeApiRequest {
 
+    private static final String TAG = "SafeApiRequest";
+
     public static <T> MutableLiveData<List<T>> callRetrofit(Call<List<T>> call) {
         MutableLiveData<List<T>> responseList = new MutableLiveData<>();
-        Log.e("inside", call.request().url()+"------");
+        Log.e("inside", call.request().url() + "------");
 
         call.enqueue(new Callback<List<T>>() {
             @Override
@@ -38,7 +45,7 @@ public class SafeApiRequest {
 
     public static <T> MutableLiveData<T> callRetrofitObjectResponse(Call<T> call) {
         MutableLiveData<T> responseObject = new MutableLiveData<>();
-        Log.e("inside", call.request().url()+"------");
+        Log.e(TAG, call.request().url() + "------");
 
         call.enqueue(new Callback<T>() {
             @Override
@@ -48,25 +55,38 @@ public class SafeApiRequest {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                Log.e("inside", t.getMessage());
+                Log.e(TAG, t.getMessage());
             }
         });
 
         return responseObject;
     }
 
-    public static <T> LiveData<T> callRetrofitObservableObject(Flowable<T> flowable) {
-        MediatorLiveData<T> observeObject = new MediatorLiveData<>();
-        LiveData<T> source=LiveDataReactiveStreams.fromPublisher(
-                flowable.subscribeOn(Schedulers.io())
-        );
+    public static <T> MutableLiveData<T> callRetrofitObservableObject(Observable<T> observable) {
+        MutableLiveData<T> observeObject = new MutableLiveData<>();
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<T>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
 
+                    }
 
-        observeObject.addSource(source, t -> {
-            observeObject.setValue(t);
-            observeObject.removeSource(source);
-        });
+                    @Override
+                    public void onNext(@NonNull T t) {
+                        observeObject.setValue(t);
+                    }
 
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "onError: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
         return observeObject;
     }
 

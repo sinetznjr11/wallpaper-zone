@@ -1,37 +1,12 @@
 
-Ÿ
-java:S1186±"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ôĞÄ8ÙïËÄ.
-{
-java:S1128"^Remove this unused import 'com.sinetcodes.wallpaperzone.data.network.responses.WallpaperList'.(¿‹“8Ù´ÒÒÄ.
-Q
-java:S3740U"/Provide the parametrized type for this generic.(üûûÅúÿÿÿÿ8‘ÕÙÓÄ.
-Y	java:S125‰"<This block of commented-out lines of code should be removed.(ÂŠÈô8ÊŞğËÄ.
-v
-java:S1128!"TRemove this unnecessary import: same package classes are always implicitly imported.(÷•ú’úÿÿÿÿ8’±ÀÓÄ.
-W	java:S125y"<This block of commented-out lines of code should be removed.(–°¨L8Œé–¸Á.
-Y	java:S125×"<This block of commented-out lines of code should be removed.(¦ÜÖÁ8¢ÏËÄ.
-T
-java:S10683"2Remove this unused "mHomePresenter" private field.(ÃñüËûÿÿÿÿ8‡­öËÄ.
-I
-java:S1068\"'Remove this unused "TAG" private field.(½™½¨úÿÿÿÿ8†¿ÓÄ.
-X	java:S125<"<This block of commented-out lines of code should be removed.(À¾¥–8Îì˜¸Á.
-Y	java:S125ñ"<This block of commented-out lines of code should be removed.(·Ëá·8³ñËÄ.
-l
-java:S14509"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
+X	java:S125z"<This block of commented-out lines of code should be removed.(¦ÜÖÁ8¢ÏËÄ.
 A
-java:S10688"+Remove this unused "mParam1" private field.(•Íï‘
-A
-java:S10689"+Remove this unused "mParam2" private field.(¡ˆ€ 
-v
-java:S1128 "TRemove this unnecessary import: same package classes are always implicitly imported.(–±ƒñÿÿÿÿÿ8’±ÀÓÄ.
-Y	java:S125Ñ"<This block of commented-out lines of code should be removed.(ŞÇ—·8¡”òËÄ.
-^	java:S125¿"<This block of commented-out lines of code should be removed.(ïŒèˆüÿÿÿÿ8‰€óËÄ.
-^	java:S125 "<This block of commented-out lines of code should be removed.(éÓ«Ñÿÿÿÿÿ8Â¡ôËÄ.
-Y	java:S125ì"<This block of commented-out lines of code should be removed.(¸×–ñ8‡­öËÄ.
-Y	java:S125Œ"<This block of commented-out lines of code should be removed.(Ë™ëš8óµğËÄ.
-K
-java:S1185ä"(Remove this method to simply inherit it.(°°‚Êúÿÿÿÿ8ÙïËÄ.
-^	java:S125·"<This block of commented-out lines of code should be removed.(ÙƒşÈüÿÿÿÿ8ùÚóËÄ.
-Y	java:S125Ü"<This block of commented-out lines of code should be removed.(±”¿Ÿ8ƒê÷ËÄ.
+java:S1068("+Remove this unused "mParam2" private field.(¡ˆ€ 
 l
-java:S14508"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘
+java:S1450("VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
+X	java:S125g"<This block of commented-out lines of code should be removed.(àÈÛÕ8Ì¦Š¾Ê.
+Y	java:S125"<This block of commented-out lines of code should be removed.(ŞÇ—·8¡”òËÄ.
+A
+java:S1068'"+Remove this unused "mParam1" private field.(•Íï‘
+l
+java:S1450'"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘

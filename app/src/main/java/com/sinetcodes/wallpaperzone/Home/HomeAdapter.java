@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sinetcodes.wallpaperzone.Common.ContentType;
+import com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper;
 import com.sinetcodes.wallpaperzone.pojo.HomeItem;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.databinding.SingleHomeVerticalItemBinding;
@@ -81,7 +82,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeVH> {
     }
 
 
-    public static class HomeVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class HomeVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         OnParentItemClickListener mOnParentItemClickListener;
         SingleHomeVerticalItemBinding mBinding;
 
@@ -95,11 +96,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeVH> {
 
         @Override
         public void onClick(View v) {
-            mOnParentItemClickListener.onParentItemClicked(v, getAdapterPosition());
+            mOnParentItemClickListener.onParentItemClicked(v, getAdapterPosition(),mHomeItems.get(getAdapterPosition()).getItems());
         }
     }
 
     public interface OnParentItemClickListener {
-        void onParentItemClicked(View view, int position);
+        void onParentItemClicked(View view, int position, List<Wallpaper> wallpaperList);
     }
 }

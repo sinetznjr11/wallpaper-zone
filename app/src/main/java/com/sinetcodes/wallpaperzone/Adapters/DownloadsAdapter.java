@@ -39,7 +39,7 @@ public class DownloadsAdapter extends RecyclerView.Adapter<DownloadsAdapter.Down
     @Override
     public DownloadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.single_explore_popular_item, parent, false);
+        View view = inflater.inflate(R.layout.single_photo_list_item, parent, false);
         return new DownloadViewHolder(view,mOnItemClickListener);
     }
 

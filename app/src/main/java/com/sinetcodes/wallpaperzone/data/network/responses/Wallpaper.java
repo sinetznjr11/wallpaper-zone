@@ -3,7 +3,9 @@ package com.sinetcodes.wallpaperzone.data.network.responses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Wallpaper {
+import java.io.Serializable;
+
+public class Wallpaper implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;

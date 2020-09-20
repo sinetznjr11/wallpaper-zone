@@ -1,7 +1,7 @@
 
-X	java:S125"<This block of commented-out lines of code should be removed.(àşÍ…8ç¬äĞÄ.
-X	java:S1253"<This block of commented-out lines of code should be removed.(öĞó8¼éãĞÄ.
-}
-java:S1488,"bImmediately return this expression instead of assigning it to the temporary variable "viewHolder".(ãÙ§Óûÿÿÿÿ
 ]	java:S125?"<This block of commented-out lines of code should be removed.(Ù¿å´ÿÿÿÿÿ8Ÿ„äĞÄ.
 o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(´×Û
+X	java:S125"<This block of commented-out lines of code should be removed.(àşÍ…8ç¬äĞÄ.
+}
+java:S1488,"bImmediately return this expression instead of assigning it to the temporary variable "viewHolder".(ãÙ§Óûÿÿÿÿ
+X	java:S1253"<This block of commented-out lines of code should be removed.(öĞó8¼éãĞÄ.
