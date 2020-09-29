@@ -1,0 +1,22 @@
+
+W
+java:S2184"ACast one of the operands of this division operation to a "float".(›‘İs
+Y
+java:S1155k">Use isEmpty() to check whether the collection is empty or not.(’¯ıÿÿÿÿ
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(«†±k
+l
+java:S1450*"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘
+l
+java:S1450+"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
+˜
+java:S1186‰"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‚Šêâ
+˜
+java:S1186“"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ôĞÄ
+
+java:S1186˜"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹ôªÿÿÿÿÿ
+=
+java:S1068&"'Remove this unused "TAG" private field.(¶Ğ€•
+A
+java:S1068*"+Remove this unused "mParam1" private field.(•Íï‘
+A
+java:S1068+"+Remove this unused "mParam2" private field.(¡ˆ€ 

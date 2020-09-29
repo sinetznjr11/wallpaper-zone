@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nineoldandroids.view.ViewHelper;
 import com.sinetcodes.wallpaperzone.pojo.Photos;
-import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
+import com.sinetcodes.wallpaperzone.ui.photoview.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 

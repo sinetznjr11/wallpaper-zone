@@ -7,87 +7,70 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.github.chrisbanes.photoview.PhotoView;
+import com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper;
+import com.sinetcodes.wallpaperzone.databinding.SingleViewPhotoItemBinding;
 import com.sinetcodes.wallpaperzone.pojo.Photos;
 import com.sinetcodes.wallpaperzone.R;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MorePhotoAdapter extends RecyclerView.Adapter<MorePhotoAdapter.PhotoViewHolder> {
     Context mContext;
-    List<Photos> mPhotos;
+    List<Wallpaper> mWallpaperList;
 
     private static final String TAG = "MorePhotoAdapter";
 
-    OnPhotoClickedListener mListener;
+    OnSurfaceClickListener mListener;
 
-    public MorePhotoAdapter(Context context, OnPhotoClickedListener onPhotoClickedListener, List<Photos> photos) {
+    public MorePhotoAdapter(Context context, OnSurfaceClickListener onSurfaceClickListener, List<Wallpaper> wallpaperList) {
         this.mContext = context;
-        this.mPhotos = photos;
-        this.mListener = onPhotoClickedListener;
+        this.mWallpaperList = wallpaperList;
+        this.mListener = onSurfaceClickListener;
     }
 
     @NonNull
     @Override
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view_photo_item, parent, false);
-        PhotoViewHolder viewHolder = new PhotoViewHolder(view, mListener);
-        return viewHolder;
+        SingleViewPhotoItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.single_view_photo_item, parent, false);
+        return new PhotoViewHolder(binding, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PhotoViewHolder holder, int position) {
-        holder.photoView.setBackgroundColor(Color.parseColor(mPhotos.get(position).getColor()));
-        Glide.with(mContext)
-                .load(mPhotos.get(position).getUrls().getRegular())
-                .thumbnail(
-                        Glide.with(mContext)
-                        .load(mPhotos.get(position).getUrls().getThumb())
-                        .thumbnail(0.1f)
-                )
-                .into(holder.photoView);
-
+        holder.mBinding.setWallpaper(mWallpaperList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mPhotos.size();
+        return mWallpaperList.size();
     }
 
-    public void addItem(List<Photos> photosList) {
-        if (photosList != null) {
-            mPhotos.addAll(photosList);
-            notifyDataSetChanged();
-        }
-    }
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.view_image)
-        PhotoView photoView;
-        OnPhotoClickedListener mOnPhotoClickedListener;
 
-        public PhotoViewHolder(@NonNull View itemView, OnPhotoClickedListener onPhotoClickedListener) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            this.mOnPhotoClickedListener = onPhotoClickedListener;
-            photoView.setOnClickListener(this);
+        OnSurfaceClickListener mOnSurfaceClickListener;
+        SingleViewPhotoItemBinding mBinding;
+
+        public PhotoViewHolder(@NonNull SingleViewPhotoItemBinding binding, OnSurfaceClickListener onSurfaceClickListener) {
+            super(binding.getRoot());
+            mBinding = binding;
+            this.mOnSurfaceClickListener = onSurfaceClickListener;
+            mBinding.viewImage.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             if (v != null) {
-                mOnPhotoClickedListener.onPhotoClicked(v, getAdapterPosition());
+                mOnSurfaceClickListener.onSurfaceTouch(v, getAdapterPosition());
             }
         }
     }
 
-    public interface OnPhotoClickedListener {
-        void onPhotoClicked(View view, int position);
+    public interface OnSurfaceClickListener {
+        void onSurfaceTouch(View view, int position);
     }
 }

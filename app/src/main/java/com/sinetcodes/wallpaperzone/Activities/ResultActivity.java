@@ -24,8 +24,10 @@ import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
 import com.sinetcodes.wallpaperzone.Home.HomeHorizontalAdapter;
+import com.sinetcodes.wallpaperzone.data.network.responses.Category;
+import com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper;
 import com.sinetcodes.wallpaperzone.pojo.Photos;
-import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
+import com.sinetcodes.wallpaperzone.ui.photoview.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.Search.SearchMVPInterface;
 import com.sinetcodes.wallpaperzone.Search.SearchPresenter;
@@ -225,13 +227,13 @@ public class ResultActivity extends AppCompatActivity
         loaderLayout.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onChildItemClicked(View view, int parentPosition, int childPosition) {
+   /* @Override
+    public void onPhotoItemClick(View view, int parentPosition, int childPosition) {
         Intent intent = new Intent(this, PhotoViewActivity.class);
         Photos photoItem = mPhotos.get(childPosition);
         intent.putExtra("photoItem", photoItem);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
@@ -323,5 +325,15 @@ public class ResultActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public void onPhotoItemClick(List<Wallpaper> wallpaperList, int position) {
+
+    }
+
+    @Override
+    public void onCategoryItemClick(Category category) {
+
     }
 }

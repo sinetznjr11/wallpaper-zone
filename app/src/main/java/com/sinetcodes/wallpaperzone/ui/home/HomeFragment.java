@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sinetcodes.wallpaperzone.data.network.responses.Category;
 import com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper;
 import com.sinetcodes.wallpaperzone.ui.list.ListActivity;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
@@ -23,6 +24,7 @@ import com.sinetcodes.wallpaperzone.Home.Slider.SliderAdapter;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.data.repository.WallpaperRepository;
 import com.sinetcodes.wallpaperzone.databinding.FragmentHomeBinding;
+import com.sinetcodes.wallpaperzone.ui.photoview.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.utils.StringsUtil;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -127,8 +129,7 @@ public class HomeFragment
     }
 
 
-    @Override
-    public void onChildItemClicked(View view, int parentPosition, int childPosition) {
+    public void onPhotoItemClick(View view, int parentPosition, int childPosition) {
 
 /*        switch (exploreItems.get(parentPosition).getTitle()) {
             case ContentType.POPULAR:
@@ -165,16 +166,16 @@ public class HomeFragment
         if (R.id.btn_show_all == view.getId()) {
             switch (position) {
                 case 1:
-                    startListActivity(StringsUtil.NEWEST,wallpaperList);
+                    startListActivity(StringsUtil.NEWEST, wallpaperList);
                     break;
                 case 2:
-                    startListActivity(StringsUtil.POPULAR,wallpaperList);
+                    startListActivity(StringsUtil.POPULAR, wallpaperList);
                     break;
                 case 3:
-                    startListActivity(StringsUtil.HIGH_RATED,wallpaperList);
+                    startListActivity(StringsUtil.HIGH_RATED, wallpaperList);
                     break;
                 case 4:
-                    startListActivity(StringsUtil.HIGH_VIEWS,wallpaperList);
+                    startListActivity(StringsUtil.HIGH_VIEWS, wallpaperList);
                     break;
                 default:
                     Log.d(TAG, "onParentItemClicked: ignored parent click");
@@ -193,4 +194,17 @@ public class HomeFragment
     }
 
 
+    @Override
+    public void onPhotoItemClick(List<Wallpaper> wallpaperList, int position) {
+        Log.e(TAG, "onPhotoItemClick: name--->"+wallpaperList.get(position).getUserName());
+        Intent intent = new Intent(getContext(), PhotoViewActivity.class);
+        intent.putExtra("wallpaperList", (Serializable) wallpaperList);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCategoryItemClick(Category category) {
+
+    }
 }

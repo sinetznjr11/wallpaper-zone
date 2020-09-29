@@ -33,7 +33,7 @@
             android:label="@string/title_activity_settings" />
         <activity android:name=".Activities.ResultActivity" />
         <activity
-            android:name=".PhotoView.PhotoViewActivity"
+            android:name=".ui.photoview.PhotoViewActivity"
             android:exported="true" />
         <activity
             android:name=".Activities.WebViewActivity"

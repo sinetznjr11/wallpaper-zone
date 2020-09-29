@@ -54,11 +54,12 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (type.equalsIgnoreCase(ContentType.CATEGORY)) {
-            ((HorizontalCategoryViewHolder) holder).mBinding.setCategory((Category) list.get(position));
-            ((HorizontalCategoryViewHolder) holder).mBinding.getRoot().setOnClickListener(v -> mListener.onChildItemClicked(v, parentPosition, position));
+            Category category = (Category) list.get(position);
+            ((HorizontalCategoryViewHolder) holder).mBinding.setCategory(category);
+            ((HorizontalCategoryViewHolder) holder).mBinding.getRoot().setOnClickListener(v -> mListener.onCategoryItemClick(category));
         } else {
             ((HorizontalPhotoViewHolder) holder).mBinding.setWallpaper((Wallpaper) list.get(position));
-            ((HorizontalPhotoViewHolder) holder).mBinding.getRoot().setOnClickListener(v -> mListener.onChildItemClicked(v, parentPosition, position));
+            ((HorizontalPhotoViewHolder) holder).mBinding.getRoot().setOnClickListener(v -> mListener.onPhotoItemClick((List<Wallpaper>) (List<?>) list, position));
         }
     }
 
@@ -74,7 +75,7 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        Log.e(TAG, "getItemCount: "+list.size());
+        Log.e(TAG, "getItemCount: " + list.size());
         return list.size();
     }
 
@@ -104,7 +105,9 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     public interface OnChildItemClickedListener {
-        public void onChildItemClicked(View view, int parentPosition, int childPosition);
+        void onPhotoItemClick(List<Wallpaper> wallpaperList, int position);
+
+        void onCategoryItemClick(Category category);
     }
 
 

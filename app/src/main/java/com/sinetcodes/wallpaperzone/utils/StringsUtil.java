@@ -40,4 +40,8 @@ public class StringsUtil {
 
 
     public static final String SEPARATOR = "_____";
+
+    public static final String STARTED="started";
+    public static final String COMPLETED="completed";
+    public static final String DISMISS="dismiss";
 }

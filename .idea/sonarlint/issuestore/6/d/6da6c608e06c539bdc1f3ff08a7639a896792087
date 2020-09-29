@@ -1,39 +1,44 @@
 
-F
-java:S1135"2Complete the task associated to this TODO comment.(°ÝÒ«
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(“€«¥úÿÿÿÿ
-O	java:S125"<This block of commented-out lines of code should be removed.(¡î—½
-L
-java:S1144"8Remove this unused private "loadRewardedVideoAd" method.(ŽøÛ­
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹ôªÿÿÿÿÿ
-;
-java:S1068"'Remove this unused "TAG" private field.(ÏŸÕñ
-T	java:S125"<This block of commented-out lines of code should be removed.(¯¦èðûÿÿÿÿ
-j
-java:S1450"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¶¹¢ñÿÿÿÿÿ
-e
-java:S3973å"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(®ºÊáþÿÿÿÿ
+
+java:S1186×"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ò“üÈúÿÿÿÿ
+¤
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¢…©­ùÿÿÿÿ8–ŽµË.
 n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(à‰Ê
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ò“üÈúÿÿÿÿ
-•
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹«©Ù
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Å˜º¦üÿÿÿÿ
-j
-java:S1450"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
-?
-java:S1068"+Remove this unused "mParam1" private field.(•Íï‘
-š
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï¶Þëýÿÿÿÿ
-•
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ôÐÄ
-?
-java:S1068"+Remove this unused "mParam2" private field.(¡ˆ€ 
-O	java:S125"<This block of commented-out lines of code should be removed.(§»©Û
+
+java:S1186Ý"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(®ºÊáþÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(¡î—½
+
+java:S1186°"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹ôªÿÿÿÿÿ
+l
+java:S14507"VRemove the "mParam2" field and declare it as a local variable in the relevant methods.(¡ˆ€ 
+F
+java:S1604•"(Make this anonymous inner class a lambda(±Îû8£µŒµË.
+
+java:S1186…"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(“€«¥úÿÿÿÿ
+
+java:S1186Š"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¶¹¢ñÿÿÿÿÿ
+A
+java:S10687"+Remove this unused "mParam2" private field.(¡ˆ€ 
+
+java:S1186ž"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Å˜º¦üÿÿÿÿ
+˜
+java:S1186«"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ôÐÄ
+l
+java:S14506"VRemove the "mParam1" field and declare it as a local variable in the relevant methods.(•Íï‘
+Ÿ
+java:S1186ü"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(öñ¡Á8–ŽµË.
+R	java:S125ì"<This block of commented-out lines of code should be removed.(§»©Û
+˜
+java:S1186™"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹«©Ù
+A
+java:S10686"+Remove this unused "mParam1" private field.(•Íï‘
+V	java:S125s"<This block of commented-out lines of code should be removed.(¯¦èðûÿÿÿÿ
+O
+java:S1144ë"8Remove this unused private "loadRewardedVideoAd" method.(ŽøÛ­
+
+java:S1186”"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï¶Þëýÿÿÿÿ
+H
+java:S11350"2Complete the task associated to this TODO comment.(°ÝÒ«
+=
+java:S10682"'Remove this unused "TAG" private field.(ÏŸÕñ
+^	java:S125‡"<This block of commented-out lines of code should be removed.(Û‡êúÿÿÿÿ8íÈµË.

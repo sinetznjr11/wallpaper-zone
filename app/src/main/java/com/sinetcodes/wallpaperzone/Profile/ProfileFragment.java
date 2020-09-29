@@ -19,7 +19,7 @@ import com.sinetcodes.wallpaperzone.Activities.SettingsActivity;
 import com.sinetcodes.wallpaperzone.Adapters.DownloadsAdapter;
 import com.sinetcodes.wallpaperzone.pojo.PhotoFile;
 import com.sinetcodes.wallpaperzone.pojo.Photos;
-import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
+import com.sinetcodes.wallpaperzone.ui.photoview.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.R;
 
 import java.util.List;

@@ -1,173 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PhotoView.PhotoViewActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="wallpaper"
+            type="com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        <variable
+            name="viewModel"
+            type="com.sinetcodes.wallpaperzone.ui.photoview.PhotoViewViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.photoview.PhotoViewActivity">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/single_image_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <FrameLayout
-            android:id="@+id/top_controls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/bg_overlay_top">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/btn_back"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_back" />
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/user_photo"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/user_placeholder"
-                    app:riv_corner_radius="12dp" />
-
-                <TextView
-                    style="@style/TextAppearance.MdcTypographyStyles.Body1"
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="John Doe"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@android:color/white" />
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <ImageButton
-                    android:id="@+id/btn_share"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="16dp"
-                    android:tint="@android:color/white"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_share" />
-            </LinearLayout>
-        </FrameLayout>
 
         <RelativeLayout
-            android:id="@+id/bottom_controls"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentBottom="true"
-            android:padding="16dp"
-            android:background="@drawable/bg_overlay">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/image_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <FrameLayout
+                android:id="@+id/top_controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="100dp"
-                android:orientation="horizontal"
-                android:layout_above="@id/button_layout"
-                android:weightSum="3">
+                android:layout_alignParentTop="true"
+                android:background="@drawable/bg_overlay_top">
+
                 <LinearLayout
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:text="Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet"
-                        android:fontFamily="@font/playfair_bold"
-                        android:textSize="22dp"
-                        android:textColor="@android:color/white"
-                        />
-                    <TextView
-                        android:layout_marginTop="8dp"
-                        android:id="@+id/sub_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lorem ipsum dolor sit amet"
-                        style="@style/TextAppearance.MdcTypographyStyles.Body2"
-                        android:textColor="@color/textLowContrast"/>
-                </LinearLayout>
-                <ImageButton
-                    android:id="@+id/btn_fav"
-                    android:layout_height="44dp"
-                    android:layout_width="44dp"
-                    app:cornerRadius="28dp"
-                    android:src="@drawable/ic_heart_stroke"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_gravity="top|end"
-                    android:scaleType="centerCrop"
-                    android:padding="14dp"
-                    />
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:id="@+id/button_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-               android:layout_alignParentBottom="true"
-                android:weightSum="3">
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_download"
-                    android:id="@+id/btn_download"
-                    app:backgroundTint="@android:color/white"
-                    app:iconTint="@color/colorPrimary"
-                    app:cornerRadius="10dp"
-                    />
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="2"
-                    app:cornerRadius="10dp"
-                    android:id="@+id/btn_set"
-                    android:text="SET WALLPAPER" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-<!--                <com.google.android.material.button.MaterialButton
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_download"
-                    app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="2dp"
-                    android:id="@+id/btn_download"
-                    app:cornerRadius="9dp"
-                    />  -->
+                    <ImageButton
+                        android:onClick="@{viewModel::onBackClick}"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_back" />
 
-            </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_share"
+                        android:onClick="@{(view)->viewModel.onShareClick(view, wallpaper.urlImage)}"
+                        android:tint="@android:color/white" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_controls"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_overlay"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/button_layout"
+                    android:minHeight="100dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/playfair_bold"
+                            android:maxLines="2"
+                            android:text="@{wallpaper.userName}"
+                            android:textColor="@android:color/white"
+                            android:textSize="22dp" />
+
+                        <TextView
+                            android:id="@+id/sub_description"
+                            style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@{wallpaper.category+` | `+wallpaper.collection}"
+                            android:textColor="@color/textLowContrast" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="top|end"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="14dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_heart_stroke"
+                        android:onClick="@{viewModel::onFavoriteClick}"
+                        app:cornerRadius="28dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_download"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        app:backgroundTint="@android:color/white"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/ic_download"
+                        app:iconTint="@color/colorPrimary" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_wallpaper"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="2"
+                        android:text="SET WALLPAPER"
+                        app:cornerRadius="10dp" />
+
+                    <!--                <com.google.android.material.button.MaterialButton
+                                        style="?attr/materialButtonOutlinedStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="56dp"
+                                        android:layout_weight="1"
+                                        app:icon="@drawable/ic_download"
+                                        app:strokeColor="@color/colorPrimary"
+                                        app:strokeWidth="2dp"
+                                        android:id="@+id/btn_download"
+                                        app:cornerRadius="9dp"
+                                        />  -->
+
+                </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

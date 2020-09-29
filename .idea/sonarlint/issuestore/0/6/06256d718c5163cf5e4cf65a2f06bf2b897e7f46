@@ -1,0 +1,10 @@
+
+U
+java:S1128"3Remove this unused import 'android.graphics.Color'.(øãíòşÿÿÿÿ8òö´Ë.
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÛË¿—ùÿÿÿÿ
+g
+java:S1128"ERemove this unused import 'com.sinetcodes.wallpaperzone.pojo.Photos'.(¨ßõ‹ÿÿÿÿÿ8Ÿëø´Ë.
+R
+java:S1128"5Remove this unused import 'com.bumptech.glide.Glide'.(Ñˆ…Ë8òö´Ë.
+=
+java:S1068"'Remove this unused "TAG" private field.(ñ¿¢

@@ -20,7 +20,9 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.sinetcodes.wallpaperzone.Activities.ResultActivity;
 import com.sinetcodes.wallpaperzone.Common.ContentType;
 import com.sinetcodes.wallpaperzone.Home.HomeHorizontalAdapter;
-import com.sinetcodes.wallpaperzone.PhotoView.PhotoViewActivity;
+import com.sinetcodes.wallpaperzone.data.network.responses.Category;
+import com.sinetcodes.wallpaperzone.data.network.responses.Wallpaper;
+import com.sinetcodes.wallpaperzone.ui.photoview.PhotoViewActivity;
 import com.sinetcodes.wallpaperzone.pojo.Photos;
 import com.sinetcodes.wallpaperzone.R;
 import com.sinetcodes.wallpaperzone.utils.AppUtil;
@@ -286,12 +288,6 @@ public class SearchFragment extends Fragment
     }
 
     @Override
-    public void onChildItemClicked(View view, int parentPosition, int childPosition) {
-
-        startPhotoViewActivity(adapter.getPhotoItem(childPosition));
-    }
-
-    @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         if (!isLoadingMore && scrollY == (mScrollView.getChildAt(0).getMeasuredHeight() - mScrollView.getMeasuredHeight())) {
             isLoadingMore = true;
@@ -320,7 +316,7 @@ public class SearchFragment extends Fragment
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mSearchView.setQuery("",false);
+        mSearchView.setQuery("", false);
         hideSearchLayout();
         startSearchActivity(query);
         return false;
@@ -350,26 +346,25 @@ public class SearchFragment extends Fragment
         mScrollView.setVisibility(View.VISIBLE);
     }
 
-    public void scrollToTop(){
-        if(mScrollView.getCurrentScrollY()==0){
-           checkConnection();
-        }
-        else
-        mScrollView.smoothScrollTo(0,0);
+    public void scrollToTop() {
+        if (mScrollView.getCurrentScrollY() == 0) {
+            checkConnection();
+        } else
+            mScrollView.smoothScrollTo(0, 0);
     }
 
     private void checkConnection() {
         if (NetworkConnectivity.checkConnection(getContext())) {
             loadContent();
             noConnectionLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
         }
     }
 
 
     public void loadContent() {
-        count=1;
+        count = 1;
         presenter.getContent(AppUtil.getRandomQuery(), -1, 20, StringsUtil.RANDOM);
     }
 
@@ -379,5 +374,24 @@ public class SearchFragment extends Fragment
         else
             noConnectionLayout.setVisibility(View.VISIBLE);
     }
+
+
+    @Override
+    public void onPhotoItemClick(List<Wallpaper> wallpaperList, int position) {
+
+    }
+
+    @Override
+    public void onCategoryItemClick(Category category) {
+
+    }
+    /*
+
+    @Override
+    public void onPhotoItemClick(View view, int parentPosition, int childPosition) {
+
+        startPhotoViewActivity(adapter.getPhotoItem(childPosition));
+    }
+*/
 
 }

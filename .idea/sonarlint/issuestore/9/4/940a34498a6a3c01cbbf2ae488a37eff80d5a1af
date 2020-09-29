@@ -1,4 +1,6 @@
 
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™®ğ˜
+P
+java:S1128".Remove this unused import 'android.view.View'.(Ø½­äşÿÿÿÿ8ç¼¬´Ë.
 J
-java:S2114B"(Remove or correct this "removeAll" call.(¾–ôšùÿÿÿÿ8´Æ¾Ê.
+java:S2114C"(Remove or correct this "removeAll" call.(¾–ôšùÿÿÿÿ8´Æ¾Ê.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™®ğ˜
